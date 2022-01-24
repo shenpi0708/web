@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用滑鼠移動的視窗</title>
+    <style>
+        .mainDiv {
+            width: 350px;
+            height: 200px;
+            border: 2px black solid;
+            position: absolute;
+        }
+
+        .titleDiv {
+            width: 350px;
+            height: 30px;
+            background-color: YellowGreen  ;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .contentDiv {
+            width: 350px;
+            height: 170px;
+            background-color: SandyBrown ;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<!--onmousedown：事件會在滑鼠按鍵被按下時發生; onmousemove：事件會在滑鼠指標移到指定的物件時發生-->
+<div class="mainDiv" id="mainDiv" style="top: 20px;left: 20px">
+    <div class="titleDiv" id="titleDiv" onmousedown="mouseDown()" onmouseup="mouseUp()">
+        標題列
+    </div>
+    <div class="contentDiv">
+        《滑鼠可控的自由視窗》<br>
+        注意：沒有給mainDiv設定position為absolute前不能移動
+    </div>
+</div>
+<script>
+    var dx;
+    var dy;
+    var mainDivObj = null;
+    var titleDivObj = null;
+
+    /**
+     * 滑鼠按下函數，當滑鼠按下時執行該函數
+     */
+    function mouseDown() {
+        //獲得滑鼠的鍵值，0是滑鼠左鍵；1是滑鼠滾軸鍵；2是滑鼠右鍵
+        if (event.button == 0) {
+            mainDivObj = document.getElementById("mainDiv");
+            titleDivObj = document.getElementById("titleDiv");
+            //設定滑鼠樣式
+            titleDivObj.style.cursor = "move";
+            //設定主div的陰影樣式
+            mainDivObj.style.boxShadow = "0px 0px 10px #000";
+            //獲得滑鼠當前座標
+            let x = event.x;
+            let y = event.y;
+            dx = x - parseInt(mainDivObj.style.left);
+            dy = y - parseInt(mainDivObj.style.top);
+
+        }
+    }
+
+    //滑鼠移動的時候呼叫
+    document.onmousemove = mouseMove;
+
+    /**
+     * 按下滑鼠後移動函數，當滑鼠移動是執行該函數，移動div
+     */
+    function mouseMove() {
+        if (mainDivObj != null) {
+            //獲得滑鼠當前移動的座標位置
+            let x = event.x;//滑鼠移動的x軸的座標
+            let y = event.y;//滑鼠移動的y軸的座標
+            //計算div移動後的left與top的距離
+            //使用當前座標減去滑鼠在div中的位置與div左邊與頂端的距離
+            let left = x - dx;
+            let top = y - dy;
+            //設定div新的座標位置
+            mainDivObj.style.left = left + "px";
+            mainDivObj.style.top = top + "px";
+        }
+    }
+    /**
+     * 滑鼠鬆開函數，當滑鼠鬆開時執行該函數
+     */
+    function mouseUp() {
+        if (mainDivObj != null) {
+            dx = null;
+            dy = null;
+            //設定div的陰影樣式
+            mainDivObj.style.boxShadow="none";
+            mainDivObj = null;
+            titleDivObj.style.cursor="pointer";
+            titleDivObj = null;
+        }
+    }
+</script>
+</body>
+</html>
