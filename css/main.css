@@ -1,0 +1,26 @@
+.over {background-image:url(../img/wifi.png);color:yellow; background: navy}
+.down {color:red; background: navy; font-style: italic}
+
+.btn-primary {
+    display: inline-block;
+    line-height: 30px;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    background-color: #428bca;
+    border-color: #357ebd;
+    border-radius: 5px;
+    border-width: 0px;
+    margin: 5px;
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.btn-primary:hover {
+    background-color: #3276b1;
+    border-color: #285e8e;
+}
+
+.btn-primary:focus {
+    outline: none;
+}
