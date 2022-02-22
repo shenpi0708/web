@@ -1,0 +1,28 @@
+.buttonstop {
+    display: inline-block;
+    padding: 10px 10px;
+    width:150px;
+    height:150px;
+    font-size: 30px;
+    /* cursor: pointer; */
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: rgb(0, 0, 0);
+    background-color: #ff0000;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 6px #cc0000;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+  }
+  
+  .buttonstop:hover {background-color: rgb(192, 0, 0)}
+  
+  .buttonstop:active {
+    background-color: rgb(104, 0, 0);
+    box-shadow: 0 2px rgb(148, 0, 0);
+    transform: translateY(4px);
+  }

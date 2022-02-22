@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+
+<body style="background-color:white;">
+    <script type="text/javascript" src="../js/modle/roslib.min.js"></script>
+    <script src="../js/KeyboardControl.js"></script>
+    <link rel="stylesheet" href="../css/armcontroller.css">
+      Command Panel : <button class="armgetbtm">Get current  values</button><br>     
+    <div class="exhibitorleft">
+        Slide [m] : <input type="number"  id='Slide' value="0.00"class='textn'step="0.01"><br>
+        Joint 1 [deg]: <input type="number" id='Joint1' value="0.00"class='textn'step="0.01">   <br>
+        Joint 2 [deg] : <input type="number" id='Joint2'value="0.00"class='textn'step="0.01"><br>
+        Joint 3 [deg] : <input type="number" id='Joint3'value="0.00"class='textn'step="0.01"><br>
+        Joint 4 [deg] : <input type="number" id='Joint4'value="0.00"class='textn'step="0.01"><br>
+        Joint 5 [deg] : <input type="number" id='Joint5'value="0.00"class='textn'step="0.01"><br>
+        Joint 6 [deg] : <input type="number" id='Joint6'value="0.00"class='textn'step="0.01"><br>
+        Joint 7 [deg] : <input type="number" id='Joint7'value="0.00"class='textn'step="0.01"> <br>
+        Send : <button class="armbtm"> Des Joint Val.</button>   
+        <button class="armbtm"> Pose.</button>  
+        <button class="armbtm"> Release Gripper.</button>   <br>
+    </div>
+
+    <div class="exhibitorright">
+        speed [%] :                           <input type="number" id='Joint8' value="0.00"class='textn'step="0.01"><br>
+        position x [m] :                   <input type="number" id='Joint9' value="0.00"class='textn'step="0.01"> <br>
+        position y [m] :                   <input type="number" id='Joint10' value="0.00"class='textn'step="0.01"><br>
+        position z [m] :                   <input type="number" id='Joint11' value="0.00"class='textn'step="0.01"> <br>
+        orientation roll [deg] :     <input type="number" id='Joint12' value="0.00"class='textn'step="0.01"> <br>
+        orientation pitch [deg] : <input type="number" id='Joint13' value="0.00"class='textn'step="0.01"> <br>
+        orientation Yaw [deg] :    <input type="number" id='Joint14' value="0.00"class='textn'step="0.01"><br>
+        orientation phi [deg] :      <input type="number" id='Joint15' value="0.00"class='textn'step="0.01"><br>
+        Send : <button class="armbtm">Line Pos. </button>   
+        <button class="armbtm">P2P Pos.</button>   
+        <button class="armbtm">Grap Pos.</button>      
+    </div>
+    
+    <div>
+        Reletive Movement<br>
+        position[m] : <input type="number" id='Joint16' value="0.00"class='textn'step="0.01">
+         orientation[deg] :  <input type="number" id='Joint17' value="0.00"class='textn'step="0.01"><br>
+        <button class="movement">+</button>   
+        <button class="movement">+</button> 
+        <button class="movement">+</button> 
+        <button class="movement">+</button> 
+        <button class="movement">+</button> 
+        <button class="movement">+</button> 
+        <button class="movement">+</button> 
+        <button class="movement">+</button> <br>
+        <div class="teststyle">X</div>  
+        <div class="teststyle">Y</div>  
+        <div class="teststyle">Z</div> 
+        <div class="teststyle">A</div>     
+        <div class="teststyle">Roll</div>  
+        <div class="teststyle">Pitch</div>  
+        <div class="teststyle">Yaw</div>  
+        <div class="teststyle">Phi</div>  <br>
+        <button class="movement">-</button> 
+        <button class="movement">-</button>  
+        <button class="movement">-</button> 
+        <button class="movement">-</button> 
+        <button class="movement">-</button> 
+        <button class="movement">-</button> 
+        <button class="movement">-</button> 
+        <button class="movement">-</button> <br>
+    </div>
+</body>
+
+</html>
+
