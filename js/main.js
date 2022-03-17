@@ -36,11 +36,11 @@ socket.on("/my_topic", function (msg) {
 const jsFrame = new JSFrame();
 
 
-  function start(idx,url) {
-
+  function start(idx,name) {
+      url = "html/"+name+".html"
       const frame = jsFrame.create({
         appearanceName: 'yosemite',
-        title: `Window-${idx}`,
+        title: name,
         name: `window${idx}`,
         left: 20 + idx * 100, top: 100, width: 520, height: 320,
         movable: true,
@@ -66,7 +66,7 @@ const jsFrame = new JSFrame();
           frame.requestFocus();
           }
           else{
-              start(idx,"html/"+name+".html");
+              start(idx,name);
           }          
         }
         else{

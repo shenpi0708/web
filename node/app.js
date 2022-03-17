@@ -4,20 +4,22 @@ const username = 'iclab'
 const express = require('express');
 const path = require('path');
 const http = require('http')
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3001; 
 
 const app = express();
 // const server = http.createServer(app)
 
 // Routing
-app.use(express.static(path.join(__dirname, '../web'))); 
+app.use(express.static(path.join(__dirname, '..'))); 
 app.get('/', function (req, res) {
   app.use(express.static(path.resolve(__dirname, '..')));
   res.sendFile(path.resolve(__dirname, '..', 'index.html'));
 });
 
 
-
+app.listen(3000,hostname, function (req, res) {
+  console.log("Server started at port 3000");
+});
 
 
 
@@ -125,8 +127,8 @@ var options = {
 
 server = https.createServer(options, app)
 
-server.listen(8082, function (req, res) {
-  console.log("Server started at port 3000");
+server.listen(3001,hostname, function (req, res) {
+  console.log("Server started at port 8082");
 });
 
 //socket io
@@ -146,14 +148,12 @@ const topics = ['/my_topic','/my_topic2']
 
 listener_node.then((rosNode) => {
   
-
       let sub = rosNode.subscribe(
         '/cmd_vel',
         'geometry_msgs/Twist',
         (data) => {
             console.log('SUB DATA : ', data);
-              io.emit('/mesege', data);            
- 
+              io.emit('/mesege', data);           
         },
         {queueSize: 1,
          throttleMs: 10});

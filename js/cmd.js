@@ -3,7 +3,7 @@ var abgstart=false
 const     a = document.getElementById('alpha');
 const     b = document.getElementById('beta');
 const     g = document.getElementById('gamma');
-
+const     s = document.getElementById('speed');
 var socket = io.connect();
 socket.on("connect", function () {
   console.log('socket connect ');
@@ -25,21 +25,7 @@ var vec3 = new ROSLIB.Message({
 socket.on("/mesege", function (msg) {
   console.log(msg)
 });
-// async function clickk() {
 
-//         socket.emit("cmd_vel",{
-//           linear: {
-//             x: 0.0,
-//             y: 0.0,
-//             z: 0.0,
-//           },
-//           angular: {
-//             x: 0.0,
-//             y: 0.0,
-//             z: 0.0,
-//           },
-//         });
-// }
 function clickk(){
 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission()
@@ -97,4 +83,8 @@ function up(){
         },
       });
      socket.emit("cmd_vel",vec0)
+}
+
+function speed(){
+  s.innerHTML =  document.getElementById("powerRange").value;
 }

@@ -4,49 +4,69 @@
 
 <body style="background-color:white;">
     <script type="text/javascript" src="../js/modle/roslib.min.js"></script>
-    <script src="../js/KeyboardControl.js"></script>
+    <script src="../js/armcontroller.js"></script>
     <link rel="stylesheet" href="../css/armcontroller.css">
-      Command Panel : <button class="armgetbtm">Get current  values</button><br>     
+    Command Panel : <button class="armgetbtm"id='leftarm' onclick="leftCLK()">left</button>
+                                        <button class="armgetbtm"id='rightarm' onclick="rightCLK()">right</button><br>    
+                                        <button class="armgetbtm" onclick="set_modle()">set modle</button>
+                                        <button class="armgetbtm"onclick="current()">Get current  values</button> <br>    
     <div class="exhibitorleft">
-        Slide [m] : <input type="number"  id='Slide' value="0.00"class='textn'step="0.01"><br>
-        Joint 1 [deg]: <input type="number" id='Joint1' value="0.00"class='textn'step="0.01">   <br>
-        Joint 2 [deg] : <input type="number" id='Joint2'value="0.00"class='textn'step="0.01"><br>
-        Joint 3 [deg] : <input type="number" id='Joint3'value="0.00"class='textn'step="0.01"><br>
-        Joint 4 [deg] : <input type="number" id='Joint4'value="0.00"class='textn'step="0.01"><br>
-        Joint 5 [deg] : <input type="number" id='Joint5'value="0.00"class='textn'step="0.01"><br>
-        Joint 6 [deg] : <input type="number" id='Joint6'value="0.00"class='textn'step="0.01"><br>
-        Joint 7 [deg] : <input type="number" id='Joint7'value="0.00"class='textn'step="0.01"> <br>
-        Send : <button class="armbtm"> Des Joint Val.</button>   
-        <button class="armbtm"> Pose.</button>  
-        <button class="armbtm"> Release Gripper.</button>   <br>
+        Slide [m] : <input type="number"  id='SlideL' value="0.00"class='textn'step="0.01">
+        <input type="number"  id='SlideR' value="0.00"class='textn'step="0.01"><br>
+        Joint 1 [deg]: <input type="number" id='JointL1' value="0.00"class='textn'step="0.01">  
+        <input type="number" id='JointR1' value="0.00"class='textn'step="0.01"> <br>
+        Joint 2 [deg] : <input type="number" id='JointL2'value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR2'value="0.00"class='textn'step="0.01"><br>
+        Joint 3 [deg] : <input type="number" id='JointL3'value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR3'value="0.00"class='textn'step="0.01"><br>
+        Joint 4 [deg] : <input type="number" id='JointL4'value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR4'value="0.00"class='textn'step="0.01"><br>
+        Joint 5 [deg] : <input type="number" id='JointL5'value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR5'value="0.00"class='textn'step="0.01"><br>
+        Joint 6 [deg] : <input type="number" id='JointL6'value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR6'value="0.00"class='textn'step="0.01"><br>
+        Joint 7 [deg] : <input type="number" id='JointL7'value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR7'value="0.00"class='textn'step="0.01"> <br>
+        <button class="armbtm" onclick="Joint_Val()"> Des Joint Val.</button>   
+        <button class="armbtm" onclick="Initial_Pose()"> Initial Pose</button>  
+        <button class="armbtm" onclick="home()"> HOME</button>   <br>
     </div>
 
     <div class="exhibitorright">
-        speed [%] :                           <input type="number" id='Joint8' value="0.00"class='textn'step="0.01"><br>
-        position x [m] :                   <input type="number" id='Joint9' value="0.00"class='textn'step="0.01"> <br>
-        position y [m] :                   <input type="number" id='Joint10' value="0.00"class='textn'step="0.01"><br>
-        position z [m] :                   <input type="number" id='Joint11' value="0.00"class='textn'step="0.01"> <br>
-        orientation roll [deg] :     <input type="number" id='Joint12' value="0.00"class='textn'step="0.01"> <br>
-        orientation pitch [deg] : <input type="number" id='Joint13' value="0.00"class='textn'step="0.01"> <br>
-        orientation Yaw [deg] :    <input type="number" id='Joint14' value="0.00"class='textn'step="0.01"><br>
-        orientation phi [deg] :      <input type="number" id='Joint15' value="0.00"class='textn'step="0.01"><br>
-        Send : <button class="armbtm">Line Pos. </button>   
-        <button class="armbtm">P2P Pos.</button>   
-        <button class="armbtm">Grap Pos.</button>      
+        speed [%] :                           <input type="number" id='Joint8' value="0.00"class='textn'step="0.01"> <br>
+        position x [m] :                   <input type="number" id='JointL9' value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR9' value="0.00"class='textn'step="0.01"> <br>
+        position y [m] :                   <input type="number" id='JointL10' value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR10' value="0.00"class='textn'step="0.01"><br>
+        position z [m] :                   <input type="number" id='JointL11' value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR11' value="0.00"class='textn'step="0.01"> <br>
+        orien roll [deg] :     <input type="number" id='JointL12' value="0.00"class='textn'step="0.01"> 
+        <input type="number" id='JointR12' value="0.00"class='textn'step="0.01"> <br>
+        orien pitch [deg] : <input type="number" id='JointL13' value="0.00"class='textn'step="0.01"> 
+        <input type="number" id='JointR13' value="0.00"class='textn'step="0.01"> <br>
+        orien Yaw [deg] :    <input type="number" id='JointL14' value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR14' value="0.00"class='textn'step="0.01"><br>
+        orien phi [deg] :      <input type="number" id='JointL15' value="0.00"class='textn'step="0.01">
+        <input type="number" id='JointR15' value="0.00"class='textn'step="0.01"><br>
+         <button class="armbtm" onclick="Line_Pos()">Line Pos. </button>   
+        <button class="armbtm" onclick="P2P_Pos()">P2P Pos.</button>   
+        <button class="armbtm" onclick="Grap_Pos()">Grap Pos.</button>      
     </div>
     
-    <div>
+    <div  >
         Reletive Movement<br>
         position[m] : <input type="number" id='Joint16' value="0.00"class='textn'step="0.01">
-         orientation[deg] :  <input type="number" id='Joint17' value="0.00"class='textn'step="0.01"><br>
-        <button class="movement">+</button>   
-        <button class="movement">+</button> 
-        <button class="movement">+</button> 
-        <button class="movement">+</button> 
-        <button class="movement">+</button> 
-        <button class="movement">+</button> 
-        <button class="movement">+</button> 
-        <button class="movement">+</button> <br>
+         orientation[deg] :  <input type="number" id='Joint17' value="0.00"class='textn'step="0.01">
+         <button class="armbtm"onclick="Grap()">Grap </button>
+         <button class="armbtm"onclick="release()">release</button><br>
+        <button class="movement"onclick="Reletive_movement('x',true)">+</button>   
+        <button class="movement"onclick="Reletive_movement('y',true)">+</button> 
+        <button class="movement"onclick="Reletive_movement('z',true)">+</button> 
+        <button class="movement"onclick="Reletive_movement('a',true)">+</button> 
+        <button class="movement"onclick="Reletive_movement('roll',true)">+</button> 
+        <button class="movement"onclick="Reletive_movement('pitch',true)">+</button> 
+        <button class="movement"onclick="Reletive_movement('yaw',true)">+</button> 
+        <button class="movement"onclick="Reletive_movement('phu',true)">+</button> <br>
         <div class="teststyle">X</div>  
         <div class="teststyle">Y</div>  
         <div class="teststyle">Z</div> 
@@ -55,14 +75,14 @@
         <div class="teststyle">Pitch</div>  
         <div class="teststyle">Yaw</div>  
         <div class="teststyle">Phi</div>  <br>
-        <button class="movement">-</button> 
-        <button class="movement">-</button>  
-        <button class="movement">-</button> 
-        <button class="movement">-</button> 
-        <button class="movement">-</button> 
-        <button class="movement">-</button> 
-        <button class="movement">-</button> 
-        <button class="movement">-</button> <br>
+        <button class="movement"onclick="Reletive_movement('x',false)">-</button> 
+        <button class="movement"onclick="Reletive_movement('y',false)">-</button>  
+        <button class="movement"onclick="Reletive_movement('z',false)">-</button> 
+        <button class="movement"onclick="Reletive_movement('a',false)">-</button> 
+        <button class="movement"onclick="Reletive_movement('roll',false)">-</button> 
+        <button class="movement"onclick="Reletive_movement('pitch',false)">-</button> 
+        <button class="movement"onclick="Reletive_movement('yaw',false)">-</button> 
+        <button class="movement"onclick="Reletive_movement('phu',false)">-</button> <br>
     </div>
 </body>
 

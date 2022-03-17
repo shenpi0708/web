@@ -14,7 +14,7 @@ docker run --rm \
   --privileged \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
   -v $HOME/.Xauthority:$docker/.Xauthority \
-  -v ${work_dir}/../../..:$HOME/work \
+  -v ${work_dir}/../..:$HOME/work \
   -e XAUTHORITY=$home_folder/.Xauthority \
   -e DISPLAY=$DISPLAY \
   -e QT_X11_NO_MITSHM=1 \
