@@ -4,8 +4,12 @@
 
 <body style="background-color:white;">
     <script type="text/javascript" src="../js/modle/roslib.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../js/type/armtype.js"></script>
     <script src="../js/armcontroller.js"></script>
     <link rel="stylesheet" href="../css/armcontroller.css">
+    
+    <!-- <button class="movement"onclick="test()">test</button> <br> -->
     Command Panel : <button class="armgetbtm"id='leftarm' onclick="leftCLK()">left</button>
                                         <button class="armgetbtm"id='rightarm' onclick="rightCLK()">right</button><br>    
                                         <button class="armgetbtm" onclick="set_modle()">set modle</button>
@@ -50,7 +54,7 @@
         <input type="number" id='JointR15' value="0.00"class='textn'step="0.01"><br>
          <button class="armbtm" onclick="Line_Pos()">Line Pos. </button>   
         <button class="armbtm" onclick="P2P_Pos()">P2P Pos.</button>   
-        <button class="armbtm" onclick="Grap_Pos()">Grap Pos.</button>      
+        <button class="armbtm" onclick="Moveit_Pos()">Moveit Pos.</button>      
     </div>
     
     <div  >
@@ -58,7 +62,9 @@
         position[m] : <input type="number" id='Joint16' value="0.00"class='textn'step="0.01">
          orientation[deg] :  <input type="number" id='Joint17' value="0.00"class='textn'step="0.01">
          <button class="armbtm"onclick="Grap()">Grap </button>
-         <button class="armbtm"onclick="release()">release</button><br>
+         <button class="armbtm"onclick="gripper()">release</button>
+         <button class="armbtm"onclick="suckerON()">suckerON</button>
+         <button class="armbtm"onclick="suckerOFF()">suckerOFF</button><br>
         <button class="movement"onclick="Reletive_movement('x',true)">+</button>   
         <button class="movement"onclick="Reletive_movement('y',true)">+</button> 
         <button class="movement"onclick="Reletive_movement('z',true)">+</button> 

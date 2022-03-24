@@ -2,10 +2,26 @@
     display: inline-block;
     /* justify-content: center;  */
     /* align-items: center;  */
-    vertical-align:text-top;
-    width: 80px; ; 
+    /* vertical-align:text-top; */
+    width: 40px; 
+    height: 20px; 
+    /* background: white; */
 }
-
+.delay{
+    display: inline-block;
+    justify-content: center; 
+    align-items: center; 
+    vertical-align:text-top;
+    /* padding: 0px 0px; */
+    margin: 0px;
+    width: 40px; 
+    /* height: 400px;  */
+    background: white;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
 .wifibtm {
     background-image: url( ../img/wifi.png );
     background-size: 40px 40px;

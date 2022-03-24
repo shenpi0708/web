@@ -148,42 +148,24 @@ const topics = ['/my_topic','/my_topic2']
 
 listener_node.then((rosNode) => {
   
-      let sub = rosNode.subscribe(
-        '/cmd_vel',
-        'geometry_msgs/Twist',
-        (data) => {
-            console.log('SUB DATA : ', data);
-              io.emit('/mesege', data);           
-        },
-        {queueSize: 1,
-         throttleMs: 10});
-
-         let pub = rosNode.advertise( '/cmd_vel','geometry_msgs/Twist', {
+        let serviceClient = rosNode.serviceClient('/add_two_ints','beginner_tutorials/AddTwoInts');
+        let joint_pose_msg_l = rosNode.advertise( '/left_arm/joint_pose_msg','manipulator_h_base_module_msgs/JointPose', {
           queueSize: 1,
           latching: true,
           throttleMs: 10
         });
-        let serviceClient = rosNode.serviceClient('/add_two_ints','beginner_tutorials/AddTwoInts');
-        let test = rosNode.waitForService(serviceClient.getService(), 2000)
-          .then((available) => {
-            if (available) {
-              serviceClient.call({'a':1,'b':2}).then((resp) => {
-                console.log('Service response ' + JSON.stringify(resp.sum));
-              });
-            } else {
-              console.log('Service not available');
-            }
-          });
+
         const onConnection = (socket) => {
           console.log('Socket.io init success')
-          socket.on('cmd_vel',function(data){
-          pub.publish(data);
+          socket.on('/left_arm/joint_pose_msg',function(data){
+          joint_pose_msg_l.publish(data);
+          console.log('asdsa')
           })
           socket.on('ping',function(callback){
             callback()
            })
+
           socket.on('test',function(data,callback){
-            // pub.publish(data);
             serviceClient.call({'a':data.a,'b':data.b}).then((resp) => {
               console.log('Service response ' + JSON.stringify(resp.sum));
               try{
@@ -193,10 +175,7 @@ listener_node.then((rosNode) => {
                 callback(error);
             }
             });
-          
             })
-
-                  
         };
         io.on("connection", onConnection);
 })

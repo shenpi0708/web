@@ -1,3 +1,4 @@
+
 //stop
 const mo=function(e){e.preventDefault();};
 document.body.style.overflow="hidden";        
@@ -13,13 +14,15 @@ for (let pair of params.entries()) {
 } 
 
 var socket = io.connect();
-socket.on('pub',function(data){
-  socket.emit("greet");
-  console.log(data);
-})
 socket.on("connect", function () {
-  socket.emit("greet");
-  console.log('socket connect ');
+  setInterval(function() {
+    start_time = new Date().getTime();
+    socket.emit("ping",function () {
+        end_time = new Date().getTime();
+        time = end_time - start_time
+        document.getElementById("ms").innerHTML=time+'ms'
+    })
+}, 2000);
 });
 
 socket.on("/my_topic", function (msg) {

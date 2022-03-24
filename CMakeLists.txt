@@ -14,6 +14,6 @@ catkin_package()
 
 install(PROGRAMS
    web/node/app.js
-
+   web/node/app_arm.js
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

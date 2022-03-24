@@ -1,5 +1,5 @@
-.exhibitorleft{ float:left; width:48%; height:270px; background:rgb(207, 255, 135);padding-left: 1%;} 
-.exhibitorright{ float:left; width: 50%;height:270px;background:rgba(255, 255, 123, 0.733);padding-left: 1%;} 
+.exhibitorleft{ float:left; width:48%;  background:rgb(207, 255, 135);padding-left: 1%;} 
+.exhibitorright{ float:left; width: 50%;background:rgba(255, 255, 123, 0.733);padding-left: 1%;} 
 
 .textn{
   text-align:center;
