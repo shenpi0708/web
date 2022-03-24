@@ -1,6 +1,18 @@
 #!/usr/bin/env node
-const hostname = '163.13.164.145';
-const username = 'iclab'
+function getIPAdress() {
+  var interfaces = require('os').networkInterfaces();　　
+  for (var devName in interfaces) {　　　　
+      var iface = interfaces[devName];　　　　　　
+      for (var i = 0; i < iface.length; i++) {
+          var alias = iface[i];
+          if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+              return alias.address;
+          }
+      }　　
+  }
+}
+const hostname = getIPAdress();
+const username = require('os').userInfo().username
 const express = require('express');
 const path = require('path');
 const http = require('http')
@@ -18,7 +30,7 @@ app.get('/', function (req, res) {
 
 
 app.listen(3000,hostname, function (req, res) {
-  console.log("Server started at port 3000");
+  console.log('http://'+hostname+":3000");
 });
 
 
@@ -128,7 +140,7 @@ var options = {
 server = https.createServer(options, app)
 
 server.listen(3001,hostname, function (req, res) {
-  console.log("Server started at port 8082");
+  console.log('https://'+hostname+":3001");
 });
 
 //socket io
