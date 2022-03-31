@@ -3,11 +3,12 @@
 <html>
 
 <body style="background-color:white;">
-    <script type="text/javascript" src="../js/modle/roslib.min.js"></script>
+    <link rel="stylesheet" href="../css/armcontroller.css">
+    <!-- <script type="text/javascript" src="../js/modle/roslib.min.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="../js/type/armtype.js"></script>
     <script src="../js/armcontroller.js"></script>
-    <link rel="stylesheet" href="../css/armcontroller.css">
+    
     
     <!-- <button class="movement"onclick="test()">test</button> <br> -->
     Command Panel : <button class="armgetbtm"id='leftarm' onclick="leftCLK()">left</button>
@@ -15,7 +16,7 @@
                                         <button class="armgetbtm" onclick="set_modle()">set modle</button>
                                         <button class="armgetbtm"onclick="current()">Get current  values</button> <br>    
     <div class="exhibitorleft">
-        Slide [m] : <input type="number"  id='SlideL' value="0.00"class='textn'step="0.01">
+        Slide [m] : <input type="number"  id='SlideL' value="0.00"class='textn' step="0.01">
         <input type="number"  id='SlideR' value="0.00"class='textn'step="0.01"><br>
         Joint 1 [deg]: <input type="number" id='JointL1' value="0.00"class='textn'step="0.01">  
         <input type="number" id='JointR1' value="0.00"class='textn'step="0.01"> <br>

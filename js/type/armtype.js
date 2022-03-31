@@ -1,9 +1,8 @@
 var JointPose = {
-
-    name: ['r_joint1', 'r_joint2', 'r_joint3','r_joint4', 'r_joint5', 'r_joint6', 'r_joint7'],
-    position: [0,0,0, 0,0, 0, 0],
-    velocity: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-    effort: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    name: ['joint1','joint2','joint3', 'joint4', 'joint5', 'joint6', 'joint7'],
+    value: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    slide_pos: 0.0,
+    speed: 10
 }
 
 var string = {

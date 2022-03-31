@@ -45,20 +45,24 @@ function Joint_Val(){ //ok
     var slidedata = slidetype 
     var data
     if (left===true){
-        data=_armjointdata('left')
+        data=_armjointdata('L')
         slidedata.pos =data[0]
-        data=data.shift();
-        jointdata.position=data
+        data.shift();
+        jointdata.speed =data[0]
+        data.shift();
+        jointdata.value=data
         socket.emit("/left_arm/joint_pose_msg",jointdata)
         socket.emit("/left_arm/slide_command_msg",slidedata)
     }
-    if(right===true)
-        data=_armjointdata('right')
+    if(right===true){
+        data=_armjointdata('R')
         slidedata.pos =data[0]
         data=data.shift();
         jointdata.position=data
         socket.emit("/right_arm/joint_pose_msg",jointdata)
-        socket.emit("/right_arm/slide_command_msg",slidedata)
+        socket.emit("/right_arm/slide_command_msg",slidedata)        
+    }
+
 }
 
 function Initial_Pose(){
@@ -139,18 +143,12 @@ function _current(where){
         console.log("Service call failed: %s" % error)
     }
 }
-//////////////測試專區//////////////
-function test(){
-    // console.log('123')
-    socket.emit("test",{a:3,b:2},function (answer) {
-        console.log(answer)
-    })
-}
-////////////////////////////////////
+
 function _armjointdata(where){
     var data=[] 
     
      data.push(document.getElementById("Slide"+where).value)
+     data.push(document.getElementById("Joint8").value)
      for( let i = 1; i <= 7; i++){
         data.push(document.getElementById("Joint"+where+i).value)      
      }
@@ -164,3 +162,15 @@ function _armlinedata(where){
      }
      return data
 }
+
+
+function createlist(name,type,range){
+    var button = document.body.appendChild(document.createElement("input"));
+    button.className='textn'
+    button.setAttribute("type", type);
+    button.value = name;
+    button.step = range;
+    button.id='textn'
+    console.log(button)
+}
+createlist('0.00','number','0.01')

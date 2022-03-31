@@ -159,7 +159,7 @@ listener_node.then((rosNode) => {
           console.log('Socket.io init success')
           socket.on('/left_arm/joint_pose_msg',function(data){
           joint_pose_msg_l.publish(data);
-          console.log('asdsa')
+          console.log(data)
           })
           socket.on('ping',function(callback){
             callback()
