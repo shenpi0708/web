@@ -20,7 +20,7 @@ var P2PPose = {
         z: 0.0              
         },
         orientation:{
-        x: 0,
+        x: 1,
         y: 0,
         z: 0,
         w: 0.0,        

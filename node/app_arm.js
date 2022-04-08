@@ -175,12 +175,12 @@ listener_node.then((rosNode) => {
           latching: true,
           throttleMs: 10
         }); 
-        let specific_pose_ms_l = rosNode.advertise( '/left_arm/specific_pose_ms','std_msgs/String', {
+        let specific_pose_ms_l = rosNode.advertise( '/left_arm/specific_pose_msg','std_msgs/String', {
           queueSize: 1,
           latching: true,
           throttleMs: 10
         });
-        let specific_pose_ms_r = rosNode.advertise( '/right_arm/specific_pose_ms','std_msgs/String', {
+        let specific_pose_ms_r = rosNode.advertise( '/right_arm/specific_pose_msg','std_msgs/String', {
           queueSize: 1,
           latching: true,
           throttleMs: 10
@@ -245,8 +245,8 @@ listener_node.then((rosNode) => {
         //   latching: true,
         //   throttleMs: 10
         // }); 
-        let get_kinematics_pose_l = rosNode.serviceClient('/left_arm/get_kinematics_pose','manipulator_h_base_module_msgs/GetKinematicsPos');
-        let get_kinematics_pose_r = rosNode.serviceClient('/right_arm/get_kinematics_pose','manipulator_h_base_module_msgs/GetKinematicsPos');
+        let get_kinematics_pose_l = rosNode.serviceClient('/left_arm/get_kinematics_pose','manipulator_h_base_module_msgs/GetKinematicsPose');
+        let get_kinematics_pose_r = rosNode.serviceClient('/right_arm/get_kinematics_pose','manipulator_h_base_module_msgs/GetKinematicsPose');
         let get_joint_pose_l = rosNode.serviceClient('/left_arm/get_joint_pose','manipulator_h_base_module_msgs/GetJointPose');
         let get_joint_pose_r = rosNode.serviceClient('/right_arm/get_joint_pose','manipulator_h_base_module_msgs/GetJointPose');
 
@@ -269,11 +269,11 @@ listener_node.then((rosNode) => {
             slide_command_msg_r.publish(data);
             console.log(data)
           })
-          socket.on('/left_arm/specific_pose_ms',function(data){
+          socket.on('/left_arm/specific_pose_msg',function(data){
             specific_pose_ms_l.publish(data);
             console.log(data)
           })
-          socket.on('/right_arm/specific_pose_ms',function(data){
+          socket.on('/right_arm/specific_pose_msg',function(data){
             specific_pose_ms_r.publish(data);
             console.log(data)
           })
@@ -320,7 +320,7 @@ listener_node.then((rosNode) => {
           })
           ///service
           socket.on('/left_arm/get_kinematics_pose',function(data,callback){
-            serviceClient.call(data).then((resp) => {
+            get_kinematics_pose_l.call(data).then((resp) => {
               try{
                 callback(resp);
               }
@@ -330,7 +330,7 @@ listener_node.then((rosNode) => {
             });
           })
           socket.on('/right_arm/get_kinematics_pose',function(data,callback){
-            serviceClient.call(data).then((resp) => {
+            get_kinematics_pose_r.call(data).then((resp) => {
               try{
                 callback(resp);
               }
@@ -340,7 +340,7 @@ listener_node.then((rosNode) => {
             });
           })
           socket.on('/left_arm/get_joint_pose',function(data,callback){
-            serviceClient.call(data).then((resp) => {
+            get_joint_pose_l.call(data).then((resp) => {
               try{
                 callback(resp);
               }
@@ -350,7 +350,7 @@ listener_node.then((rosNode) => {
             });
           })
           socket.on('/right_arm/get_joint_pose',function(data,callback){
-            serviceClient.call(data).then((resp) => {
+            get_joint_pose_r.call(data).then((resp) => {
               try{
                 callback(resp);
               }

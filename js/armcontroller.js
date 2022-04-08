@@ -1,5 +1,7 @@
 let left = false;
 let right = false;
+var joint_pose_current
+var kinematics_current
 var socket = io.connect();
 socket.on("connect", function () {
   console.log('socket connect ');
@@ -36,9 +38,9 @@ function set_modle(){ //ok
 }   
 function current(){  //ok
     if (left===true)
-    _current('left','L')
+        _current('left','L')
     if(right===true)
-    _current('right','R')
+        _current('right','R')
 }
 function Joint_Val(){ //ok
     var jointdata =JointPose
@@ -70,18 +72,18 @@ function Initial_Pose(){
     var data = string
     data.data='ini_pose'
     if (left===true)
-        socket.emit("/left_arm/specific_pose_ms",data)
+        socket.emit("/left_arm/specific_pose_msg",data)
     if(right===true)
-        socket.emit("/right_arm/specific_pose_ms",data)
+        socket.emit("/right_arm/specific_pose_msg",data)
 }
 
 function home(){//ok
     var data = string
     data.data='home_pose'
     if (left===true)
-        socket.emit("/left_arm/specific_pose_ms",data)
+        socket.emit("/left_arm/specific_pose_msg",data)
     if(right===true)
-        socket.emit("/right_arm/specific_pose_ms",data)
+        socket.emit("/right_arm/specific_pose_msg",data)
 }
 ////////////////////100%/////////////////////////
 function Line_Pos(){
@@ -154,30 +156,40 @@ function Reletive_movement(name,value){
 /////////////////////////////////////////////
 ////////////////////少pi/180 資料順序有問題/////
 function _current(where,wh){
-    try{
-        var data  = list()
-        for (let i=0;i< 8;i++){
-            data.append('joint{}'.format(i))
+    // try{
+        var string = {
+            'joint_name': ['joint1','joint2','joint3', 'joint4', 'joint5', 'joint6', 'joint7']
         }
-        socket.emit('/'+where+'_arm/get_joint_pose', 'arm', function (answer) {
-            for( let i = 1; i <= 7; i++){
-                document.getElementById("Joint"+wh+i).value=answer[i-1]*Math.PI    
+        socket.emit('/'+where+'_arm/get_joint_pose',string, function (answer) {
+            joint_pose_current=answer
+            for( let i = 0; i < 7; i++){
+                answer.joint_value[i] = Math.round(answer.joint_value[i]*180/Math.PI * 100) / 100
+                document.getElementById("Joint"+wh+(i+1)).value=Math.round(answer.joint_value[i] * 100) / 100
              }
+             document.getElementById("Slide"+wh).value=Math.round(answer.slide_pos * 100) / 100
+            console.log(answer)
         });
-        socket.emit('/'+where+'_arm/get_kinematics_pose','arm',function (answer) {
-            for( let i = 9; i <= 15; i++){
-                document.getElementById("Joint"+wh+i).value=answer[i-9]*Math.PI    
-             }
-        })        
-    }
-    catch(error) {
-        console.log("Service call failed: %s" % error)
-    }
+        socket.emit('/'+where+'_arm/get_kinematics_pose',{group_name:"arm"},function (answer) {
+            kinematics_current=answer
+            document.getElementById("Joint"+wh+'12').value = Math.round(-answer.group_pose.orientation.y*180*2/Math.PI * 100) / 100
+            document.getElementById("Joint"+wh+'13').value= Math.round(answer.group_pose.orientation.z*180*2/Math.PI * 100) / 100
+            document.getElementById("Joint"+wh+'14').value =Math.round( -answer.group_pose.orientation.w*180*2/Math.PI * 100) / 100
+
+            document.getElementById("Joint"+wh+'9').value =Math.round( -answer.group_pose.position.x * 100) / 100
+            document.getElementById("Joint"+wh+'10').value =Math.round( -answer.group_pose.position.y * 100) / 100
+            document.getElementById("Joint"+wh+'11').value =Math.round( -answer.group_pose.position.z * 100) / 100
+            document.getElementById("Joint"+wh+'15').value = Math.round(answer.phi*180/Math.PI * 100) / 100
+        })  
+        // console.log(string)      
+    // }
+    // catch(error) {
+    //     console.log("Service call failed: %s" % error)
+    // }
 }
 /////////////////////////////////////////////////
 function _armjointdata(where){
     var data=[] 
-    
+
      data.push(document.getElementById("Slide"+where).value)
      data.push(document.getElementById("Joint8").value)
      for( let i = 1; i <= 7; i++){
@@ -203,9 +215,10 @@ function datatf(data,where){
     data.pose.position.x=htmldata[1]
     data.pose.position.y=htmldata[2]
     data.pose.position.z=htmldata[3]
-    data.pose.orientation.x=htmldata[4]*Math.PI/180
     data.pose.orientation.y=htmldata[5]*Math.PI/180
     data.pose.orientation.z=htmldata[6]*Math.PI/180
     data.pose.orientation.w=htmldata[7]*Math.PI/180
+    data.pose.phi=htmldata[4]*Math.PI/180    
+    console.log(data)
     return data
 }
