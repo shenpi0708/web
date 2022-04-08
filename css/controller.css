@@ -1,0 +1,33 @@
+.body{
+  background-color:white; -webkit-user-select:none;
+-moz-user-select:none;
+-o-user-select:none;
+user-select:none;
+}
+.standby_btm {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: black;
+    background-color: white;
+    border-color: blue;
+    border-radius: 15px;
+    box-shadow: 0 6px #eae0ce;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+
+  }
+  
+  .standby_btm:hover {background-color: goldenrod}
+  
+  .standby_btm:active {
+    background-color: honeydew;
+    box-shadow: 0 2px lemonchiffon;
+    transform: translateY(4px);
+  }

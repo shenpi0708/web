@@ -1,0 +1,118 @@
+.wifimodle{
+    display: inline-block;
+    /* justify-content: center;  */
+    /* align-items: center;  */
+    /* vertical-align:text-top; */
+    width: 40px; 
+    height: 20px; 
+    /* background: white; */
+}
+.delay{
+    display: inline-block;
+    justify-content: center; 
+    align-items: center; 
+    vertical-align:text-top;
+    /* padding: 0px 0px; */
+    margin: 0px;
+    width: 40px; 
+    /* height: 400px;  */
+    background: white;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+.wifibtm {
+    background-image: url( ../img/wifi.png );
+    background-size: 40px 40px;
+    height: 40px;  
+    width: 40px;
+    align-items: center; 
+    border: none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+.wifibtm:active {
+    transform: translateY(4px);
+  }
+
+.light {
+    width: 30px;
+    height: 40px;  
+    background-image: url( ../img/light2.png );
+    background-size: 30px 40px; 
+    align-items: center;    
+    border: none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+}
+
+.btmmodle{
+    display: inline-block;
+    justify-content: center; 
+    align-items: center; 
+    vertical-align:text-top;
+    flex-grow: 1; ; 
+}
+
+.bottonbackground{
+    display: flex;
+    background: mistyrose;
+    /* margin:0 auto; */
+    text-align:center;
+    padding-top:3px;
+    padding-bottom:5px;
+    
+    /* position: relative; */
+}
+    
+.button {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #ffa500;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 6px #eae0ce;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    margin-bottom: 3px;
+  }
+  
+  .button:hover {background-color: goldenrod}
+  
+  .button:active {
+    background-color: honeydew;
+    box-shadow: 0 2px lemonchiffon;
+    transform: translateY(4px);
+  }
+.page{
+    padding-top:10px;   
+}
+
+/* html {
+    overflow: -moz-hidden-unscrollable;
+    height: 100%;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+    height: 100%;
+	width: calc(100vw + 18px);
+	overflow: auto;
+} */

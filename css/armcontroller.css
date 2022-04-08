@@ -1,0 +1,105 @@
+.exhibitorleft{ float:left; width:48%;  background:rgb(207, 255, 135);padding-left: 1%;} 
+.exhibitorright{ float:left; width: 50%;background:rgba(255, 255, 123, 0.733);padding-left: 1%;} 
+
+.textn{
+  text-align:center;
+  width: 60px;
+  margin-top: 2px;
+  /* margin-left: 100px; */
+  margin-bottom: 2px;
+}
+.armbtm {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: black;
+    background-color: white;
+    border-color: rgb(0, 0, 158);
+    border-width: 1px;
+    border-radius: 15px;
+    box-shadow: 0 2px #eae0ce;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    margin-bottom: 4px;
+  }
+  
+  .armbtm:hover {background-color: rgb(216, 173, 66)}
+  
+  .armbtm:active {
+    background-color: rgb(223, 174, 50);
+    box-shadow: 0 0px lemonchiffon;
+    transform: translateY(2px);
+  }
+  .armgetbtm {
+    
+    display: inline-block;
+    padding: 1px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: black;
+    background-color: white;
+    border-color: rgb(0, 0, 158);
+    border-width: 1px;
+    border-radius: 15px;
+    box-shadow: 0 2px #eae0ce;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -o-user-select:none;
+    user-select:none;
+    margin-bottom: 4px;
+  }
+  
+  .armgetbtm:hover {background-color: rgb(108, 218, 117)}
+  
+  .armgetbtm:active {
+    background-color: rgb(107, 216, 116);
+    box-shadow: 0 0px lemonchiffon;
+    transform: translateY(2px);
+  }
+
+.movement{
+  display: inline-block;
+  width: 11%;
+  /* height: 25px; */
+  font-size: 12px;
+  /* padding-bottom: 25px; */
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: white;
+  border-color: rgb(0, 0, 158);
+  border-width: 1px;
+  border-radius: 15px;
+  box-shadow: 0 2px #eae0ce;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -o-user-select:none;
+  user-select:none;
+  margin-bottom: 4px;
+}
+.movement:hover {background-color: rgb(108, 218, 117)}
+  
+.movement:active {
+  background-color: rgb(107, 216, 116);
+  box-shadow: 0 0px lemonchiffon;
+  transform: translateY(2px);
+}
+.teststyle{
+  float:left;
+  width: 11%;
+  padding: 0px 2px;
+  font-size: 15px;
+  text-align: center;
+  white-space:nowrap;
+}

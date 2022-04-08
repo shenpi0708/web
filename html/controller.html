@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+
+<body class='body'>
+    <script type="text/javascript" src="../js/modle/roslib.min.js"></script>
+    <script src="../js/KeyboardControl.js"></script>
+    <link rel="stylesheet" href="../css/controller.css">
+    <link rel="stylesheet" href="../css/stop.css">
+    <script src="/socket.io/socket.io.js"></script>
+    Speed<input type="range" min="0" max="1" step="0.01"id='powerRange'   oninput="speed()" onchange="speed()"><span id="speed">0.5</span><br/>
+
+    <button id='stand_by' value="key_stand by" class="standby_btm" onclick="KeyboardState()">stand_by</button>
+
+     
+   <input type="button" value="GY_stand_by"  class="standby_btm" id=".btn" onclick=clickk()>
+   <input type="button" value="start" id=".btn"  class="buttonstop"
+   onmousedown   ="down();"   
+   ontouchstart  ="down()  ;"
+    onmouseup     ="up()"
+   ontouchend    ="up()"><br/>
+    alpha:<span id="alpha">0</span><br/>
+    beta:<span id="beta">0</span><br/>
+    gamma:<span id="gamma">0</span><br/>
+    <div id="page1" class="page"></div>
+<script src="../js/cmd.js"></script>
+    
+
+</body>
+
+</html>
+
