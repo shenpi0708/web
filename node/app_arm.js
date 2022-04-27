@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 function getIPAdress() {
-  var interfaces = require('os').networkInterfaces();　　
-  for (var devName in interfaces) {　　　　
-      var iface = interfaces[devName];　　　　　　
+  var interfaces = require('os').networkInterfaces();
+  for (var devName in interfaces) {
+      var iface = interfaces[devName];
       for (var i = 0; i < iface.length; i++) {
           var alias = iface[i];
           if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
               return alias.address;
           }
-      }　　
+      }
   }
 }
 const hostname = getIPAdress();
@@ -154,7 +154,22 @@ const nh = rosnodejs.nh;
 const topics = ['/my_topic','/my_topic2']
 
 listener_node.then((rosNode) => {
-  
+        let sub = rosNode.subscribe(
+          '/left_arm/status',
+          'robotis_controller_msgs/StatusMsg',
+          (data) => {
+                io.emit('/left_arm/status', data.status_msg);           
+          },
+          {queueSize: 1,
+          throttleMs: 10});
+        let sub2 = rosNode.subscribe(
+          '/right_arm/status',
+          'robotis_controller_msgs/StatusMsg',
+          (data) => {
+                io.emit('/right_arm/status', data.status_msg);           
+          },
+          {queueSize: 1,
+          throttleMs: 10});  
         let joint_pose_msg_l = rosNode.advertise( '/left_arm/joint_pose_msg','manipulator_h_base_module_msgs/JointPose', {
           queueSize: 1,
           latching: true,

@@ -6,7 +6,70 @@ var socket = io.connect();
 socket.on("connect", function () {
   console.log('socket connect ');
 });
-
+socket.on("/left_arm/status", (arg) => {
+    var btm 
+    var len
+    if(arg==='Start Trajectory'){
+        btm = document.getElementsByClassName('armbtm')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=true;
+            btm[0].className='arm2btm'
+        }
+        btm = document.getElementsByClassName('movement')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=true;
+            btm[0].className='movement2'
+        }
+    }
+    else if(arg==="End Trajectory"){
+        btm = document.getElementsByClassName('arm2btm')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=false;
+            btm[0].className='armbtm'
+        }
+        btm = document.getElementsByClassName('movement2')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=true;
+            btm[0].className='movement'
+        }
+    }
+  });
+socket.on("/right_arm/status", (arg) => {
+    var btm 
+    var len
+    if(arg==='Start Trajectory'){
+        btm = document.getElementsByClassName('armbtm')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=true;
+            btm[0].className='arm2btm'
+        }
+        btm = document.getElementsByClassName('movement')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=true;
+            btm[0].className='movement2'
+        }
+    }
+    else if(arg==="End Trajectory"){
+        btm = document.getElementsByClassName('arm2btm')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=false;
+            btm[0].className='armbtm'
+        }
+        btm = document.getElementsByClassName('movement2')
+        len=btm.length
+        for (let i=0;i<len;i++ ){
+            btm[0].disabled=true;
+            btm[0].className='movement'
+        }
+    }
+});  
 function leftCLK(){ 
     if(left===true){
         left=false;
@@ -14,7 +77,7 @@ function leftCLK(){
     }
     else{
         left=true
-        document.getElementById('leftarm').style.background="blue"
+        document.getElementById('leftarm').style.background="#5B79FF"
     }
 }
 function rightCLK(){
@@ -23,7 +86,7 @@ function rightCLK(){
         document.getElementById('rightarm').style.background="white"
     }
     else{
-        document.getElementById('rightarm').style.background="blue"
+        document.getElementById('rightarm').style.background="#5B79FF"
         right=true
     }
 }
@@ -142,10 +205,20 @@ function release(){
 }
 //////////////////////////暫時沒有topic//////////////////
 function suckerON(){
-    console.log('asd')
+    var data = string
+    data.data='sucker_on'
+    if (left===true)
+        socket.emit("/left_arm/sucker_on_msg",data)
+    if(right===true)
+        socket.emit("/right_arm/sucker_on_msg",data)
 }
 function suckerOFF(){
-    console.log('asd')
+    var data = string
+    data.data='sucker_off'
+    if (left===true)
+        socket.emit("/left_arm/sucker_off_msg",data)
+    if(right===true)
+        socket.emit("/right_arm/sucker_off_msg",data)
 }
 //////////////////0%///////////////////////////
 function Reletive_movement(name,value){
@@ -154,7 +227,7 @@ function Reletive_movement(name,value){
     P2P_Pos()
 }
 /////////////////////////////////////////////
-////////////////////少pi/180 資料順序有問題/////
+/////////////////////
 function _current(where,wh){
     // try{
         var string = {
