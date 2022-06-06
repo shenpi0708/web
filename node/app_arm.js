@@ -250,16 +250,26 @@ listener_node.then((rosNode) => {
           latching: true,
           throttleMs: 10
         }); 
-        // let status_l = rosNode.advertise( '/left_arm/status','robotis_controller_msgs/StatusMsg', {
-        //   queueSize: 1,
-        //   latching: true,
-        //   throttleMs: 10
-        // });
-        // let status_r = rosNode.advertise( '/right_arm/status','robotis_controller_msgs/StatusMsg', {
-        //   queueSize: 1,
-        //   latching: true,
-        //   throttleMs: 10
-        // }); 
+        let sucker_on_l = rosNode.advertise( '/left_arm/sucker_on_msg','std_msgs/String', {
+          queueSize: 1,
+          latching: true,
+          throttleMs: 10
+        });
+        let sucker_on_r = rosNode.advertise( '/right_arm/sucker_on_msg','std_msgs/String', {
+          queueSize: 1,
+          latching: true,
+          throttleMs: 10
+        }); 
+        let sucker_off_l = rosNode.advertise( '/left_arm/sucker_off_msg','std_msgs/String', {
+          queueSize: 1,
+          latching: true,
+          throttleMs: 10
+        });
+        let sucker_off_r = rosNode.advertise( '/right_arm/sucker_off_msg','std_msgs/String', {
+          queueSize: 1,
+          latching: true,
+          throttleMs: 10
+        }); 
         let get_kinematics_pose_l = rosNode.serviceClient('/left_arm/get_kinematics_pose','manipulator_h_base_module_msgs/GetKinematicsPose');
         let get_kinematics_pose_r = rosNode.serviceClient('/right_arm/get_kinematics_pose','manipulator_h_base_module_msgs/GetKinematicsPose');
         let get_joint_pose_l = rosNode.serviceClient('/left_arm/get_joint_pose','manipulator_h_base_module_msgs/GetJointPose');
@@ -330,6 +340,23 @@ listener_node.then((rosNode) => {
             console.log(data)
           })
           socket.on('/right_arm/grap_alcohol_msg',function(data){
+            grap_alcohol_msg_r.publish(data);
+            console.log(data)
+          })
+
+          socket.on('/left_arm/sucker_on_msg',function(data){
+            grap_alcohol_msg_l.publish(data);
+            console.log(data)
+          })
+          socket.on('/right_arm/sucker_on_msg',function(data){
+            grap_alcohol_msg_r.publish(data);
+            console.log(data)
+          })
+          socket.on('/left_arm/sucker_off_msg',function(data){
+            grap_alcohol_msg_l.publish(data);
+            console.log(data)
+          })
+          socket.on('/right_arm/sucker_off_msg',function(data){
             grap_alcohol_msg_r.publish(data);
             console.log(data)
           })

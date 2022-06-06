@@ -203,14 +203,14 @@ function release(){
     if(right===true)
         socket.emit("/right_arm/release_pose_msg",data)
 }
-//////////////////////////暫時沒有topic//////////////////
+////////////////////////////////////////////
 function suckerON(){
     var data = string
     data.data='sucker_on'
     if (left===true)
         socket.emit("/left_arm/sucker_on_msg",data)
     if(right===true)
-        socket.emit("/right_arm/sucker_on_msg",data)
+        socket.emit("/right_arm/sucker_on_msg",data)    
 }
 function suckerOFF(){
     var data = string
@@ -223,8 +223,22 @@ function suckerOFF(){
 //////////////////0%///////////////////////////
 function Reletive_movement(name,value){
     current()
-    document.getElementById("Joint"+name+i).value+=value
-    P2P_Pos()
+    if(name!='12'){
+        document.getElementById("Joint"+name+i).value+=value
+        P2P_Pos()
+    }
+    else{
+        if (left===true){
+            data=noa_relative_pos(_armlinedata('L'))
+            socket.emit("/left_arm/p2p_pose_msg",data)
+        } 
+        if(right===true){
+            data=noa_relative_pos(_armlinedata('R'))
+            socket.emit("/right_arm/p2p_pose_msg",data)
+        }
+        
+    } 
+    
 }
 /////////////////////////////////////////////
 /////////////////////
@@ -293,5 +307,36 @@ function datatf(data,where){
     data.pose.orientation.w=htmldata[7]*Math.PI/180
     data.pose.phi=htmldata[4]*Math.PI/180    
     console.log(data)
+    return data
+}
+
+
+function noa_relative_pos(data, suction_angle=0, n=0, o=0, a=0){
+//由a點移動至基於b點延noa向量移動後的c點
+
+    suction_angle = suction_angle * pi/180
+    suction_rot = np.matrix([[cos(suction_angle),  0.0, sin(suction_angle)],
+                        [0.0,                 1.0,                0.0],
+                        [-sin(suction_angle), 0.0, cos(suction_angle)]])
+    euler[0], euler[1], euler[2] = radians(data.pose.orientation.y), radians(data.pose.orientation.z), radians(data.pose.orientation.w)
+    rot = self.euler2rotation(euler) * suction_rot
+    vec_n, vec_o, vec_a = self.rotation2vector(rot) //for suction
+    move = [0, 0, 0]
+    a -= 0.065
+
+    if (n > 1e-10)
+        move += multiply(vec_n, n)
+    if (o != 0)
+        move += multiply(vec_o, o)
+    if (a != 0)
+        move += multiply(vec_a, a)
+
+    data.pose.position.x=data.pose.position.x+move[0]
+    data.pose.position.y=data.pose.position.y+move[1]
+    data.pose.position.z=data.pose.position.z+move[2]
+    data.pose.orientation.y=degrees(euler[0])
+    data.pose.orientation.z=degrees(euler[1])
+    data.pose.orientation.w=degrees(euler[2])
+
     return data
 }

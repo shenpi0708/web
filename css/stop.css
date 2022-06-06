@@ -9,10 +9,9 @@
     text-decoration: none;
     outline: none;
     color: rgb(0, 0, 0);
-    background-color: #ff0000;
+    background-color: red;
     border: none;
     border-radius: 15px;
-    box-shadow: 0 6px #cc0000;
     -webkit-user-select:none;
     -moz-user-select:none;
     -o-user-select:none;
