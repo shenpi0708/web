@@ -105,12 +105,14 @@ var ctx=canvas.getContext("2d");
 ctx.strokeStyle = "#BADA55"; // 設定勾勒圖形時用的顏色
 ctx.lineJoin = "round"; // 指定兩條線連結處的屬性，這裡選擇用圓角
 ctx.lineCap = "round"; // 指定每一條線末端的屬性，這裡選擇用圓角
+ctx.strokeStyle = `red`;
+
 let isDrawing = false; // 用來判斷是否正在畫圖
 let lastX = 0; //用來設定畫筆的X座標
 let lastY = 0; //用來設定畫筆的Y座標
 let AX = 0; //用來設定畫筆的X座標
 let AY = 0; //用來設定畫筆的Y座標
-
+let ang = 0;
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mousedown", (e) => {
   isDrawing = true;
@@ -120,26 +122,48 @@ canvas.addEventListener("mousedown", (e) => {
   AY=e.clientY
   ctx.clearRect(0,0,600,600)
   ctx.beginPath();
-  ctx.arc(e.offsetX,e.offsetY,10,0,2*Math.PI);
+  angside = 0.3
+  var ang2=ang-Math.PI/4
+  ctx.moveTo(lastX+45.5*Math.cos(ang2+angside), lastY+45.5*Math.sin(ang2+angside));
+  ctx.lineTo(lastX+45.5*Math.sin(ang2-angside), lastY-45.5*Math.cos(ang2-angside));
+  ctx.lineTo(lastX-45.5*Math.cos(ang2+angside), lastY-45.5*Math.sin(ang2+angside));
+  ctx.lineTo(lastX-45.5*Math.sin(ang2-angside), lastY+45.5*Math.cos(ang2-angside));
+  ctx.lineTo(lastX+45.5*Math.cos(ang2+angside), lastY+45.5*Math.sin(ang2+angside));
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(lastX, lastY);
+  ctx.lineTo(lastX+10, lastY);
   ctx.stroke();
 });
-canvas.addEventListener("mouseup", () => (isDrawing = false));
-canvas.addEventListener("mouseout", () => (isDrawing = false));
+canvas.addEventListener("mouseup", () => {isDrawing = false ;});
+// canvas.addEventListener("mouseout", () => (isDrawing = false));
 function draw(e) {
   if (!isDrawing) return; //如果不是在mousedown的時候，這個function不作用
   //console.log(e.offsetX,e.offsetY);
   ctx.clearRect(0,0,600,600)
+
+
   ctx.beginPath();
-  ctx.arc(lastX,lastY,10,0,2*Math.PI);
+  // angside = Math.atan2(53,74)
+  angside = 0.25
+   console.log(angside*180/Math.PI)
+  var ang2=ang-Math.PI/4
+  ctx.moveTo(lastX+45.5*Math.cos(ang2+angside), lastY+45.5*Math.sin(ang2+angside));
+
+  ctx.lineTo(lastX+45.5*Math.sin(ang2-angside), lastY-45.5*Math.cos(ang2-angside));
+  ctx.lineTo(lastX-45.5*Math.cos(ang2+angside), lastY-45.5*Math.sin(ang2+angside));
+  ctx.lineTo(lastX-45.5*Math.sin(ang2-angside), lastY+45.5*Math.cos(ang2-angside));
+  ctx.lineTo(lastX+45.5*Math.cos(ang2+angside), lastY+45.5*Math.sin(ang2+angside));
+
+
   ctx.stroke();
-  ctx.strokeStyle = `red`;
+
   ctx.beginPath();
-  let ang = Math.atan2((e.offsetY-lastY),(e.offsetX-lastX))
+  ang = Math.atan2((e.offsetY-lastY),(e.offsetX-lastX))
   console.log(" x:",e.offsetX," y:",e.offsetY,'angle',ang* 180/Math.PI)  
 
-  
   ctx.moveTo(lastX, lastY);
-  ctx.lineTo(lastX+10*Math.cos(ang), lastY+10*Math.sin(ang));
+  ctx.lineTo(lastX+40*Math.cos(ang), lastY+40*Math.sin(ang));
   ctx.stroke();
 
 }
