@@ -5,6 +5,7 @@ const     b = document.getElementById('beta');
 const     g = document.getElementById('gamma');
 const     s = document.getElementById('speed');
 var socket = io.connect();
+
 socket.on("connect", function () {
   console.log('socket connect ');
 });
@@ -21,10 +22,10 @@ var vec3 = new ROSLIB.Message({
   },
 });
 
+var mobile_position_x,mobile_position_y,mobile_position_ang
+
 //收訊息
-socket.on("/mesege", function (msg) {
-  console.log(msg)
-});
+
 
 function clickk(){
 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -132,21 +133,22 @@ canvas.addEventListener("mousedown", (e) => {
   ctx.stroke();
   ctx.beginPath();
   ctx.moveTo(lastX, lastY);
-  ctx.lineTo(lastX+10, lastY);
+  ctx.lineTo(lastX+40*Math.cos(ang), lastY+40*Math.sin(ang));
   ctx.stroke();
+  console.log(" x:",e.offsetX," y:",e.offsetY,'angle',-ang* 180/Math.PI)  
+  mobile()
 });
 canvas.addEventListener("mouseup", () => {isDrawing = false ;});
 // canvas.addEventListener("mouseout", () => (isDrawing = false));
 function draw(e) {
   if (!isDrawing) return; //如果不是在mousedown的時候，這個function不作用
   //console.log(e.offsetX,e.offsetY);
+  // mobile()
   ctx.clearRect(0,0,600,600)
-
 
   ctx.beginPath();
   // angside = Math.atan2(53,74)
   angside = 0.25
-   console.log(angside*180/Math.PI)
   var ang2=ang-Math.PI/4
   ctx.moveTo(lastX+45.5*Math.cos(ang2+angside), lastY+45.5*Math.sin(ang2+angside));
 
@@ -160,11 +162,55 @@ function draw(e) {
 
   ctx.beginPath();
   ang = Math.atan2((e.offsetY-lastY),(e.offsetX-lastX))
-  console.log(" x:",e.offsetX," y:",e.offsetY,'angle',ang* 180/Math.PI)  
+  console.log(" x:",e.offsetX," y:",e.offsetY,'angle',-ang* 180/Math.PI)  
 
   ctx.moveTo(lastX, lastY);
   ctx.lineTo(lastX+40*Math.cos(ang), lastY+40*Math.sin(ang));
   ctx.stroke();
-
+  mobile()
 }
 
+var ctx2=canvas.getContext("2d");
+ctx2.strokeStyle = "#BADA55"; // 設定勾勒圖形時用的顏色
+ctx2.lineJoin = "round"; // 指定兩條線連結處的屬性，這裡選擇用圓角
+ctx2.lineCap = "round"; // 指定每一條線末端的屬性，這裡選擇用圓角
+
+
+socket.on("mobile_position", function (msg) {
+  
+  mobile_position_x=msg.linear.x
+  mobile_position_y=msg.linear.y
+  mobile_position_ang=msg.angular.z
+  angside = 0.3
+  // draw
+  ctx2.strokeStyle = `green`;
+  var ang2=mobile_position_ang-Math.PI/4
+  ctx2.beginPath();
+  ctx2.moveTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
+  ctx2.lineTo(mobile_position_x+45.5*Math.sin(ang2-angside), mobile_position_y-45.5*Math.cos(ang2-angside));
+  ctx2.lineTo(mobile_position_x-45.5*Math.cos(ang2+angside), mobile_position_y-45.5*Math.sin(ang2+angside));
+  ctx2.lineTo(mobile_position_x-45.5*Math.sin(ang2-angside), mobile_position_y+45.5*Math.cos(ang2-angside));
+  ctx2.lineTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
+  ctx2.stroke();
+  ctx2.moveTo(mobile_position_x, mobile_position_y);
+  ctx2.lineTo(mobile_position_x+40*Math.cos(mobile_position_ang), mobile_position_y+40*Math.sin(mobile_position_ang));
+  ctx2.stroke();
+  ctx2.strokeStyle = `red`;
+});
+function mobile(){
+  ctx2.strokeStyle = `green`;
+  var ang2=mobile_position_ang-Math.PI/4
+  ctx2.beginPath();
+  ctx2.moveTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
+  ctx2.lineTo(mobile_position_x+45.5*Math.sin(ang2-angside), mobile_position_y-45.5*Math.cos(ang2-angside));
+  ctx2.lineTo(mobile_position_x-45.5*Math.cos(ang2+angside), mobile_position_y-45.5*Math.sin(ang2+angside));
+  ctx2.lineTo(mobile_position_x-45.5*Math.sin(ang2-angside), mobile_position_y+45.5*Math.cos(ang2-angside));
+  ctx2.lineTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
+  ctx2.stroke();
+  ctx2.beginPath(); 
+
+  ctx2.moveTo(mobile_position_x, mobile_position_y);
+  ctx2.lineTo(mobile_position_x+40*Math.cos(mobile_position_ang), mobile_position_y+40*Math.sin(mobile_position_ang));
+  ctx2.stroke();
+  ctx2.strokeStyle = `red`;
+}

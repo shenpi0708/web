@@ -170,43 +170,55 @@ listener_node.then((rosNode) => {
         {queueSize: 1,
          throttleMs: 10});
 
-         let pub = rosNode.advertise( '/cmd_vel','geometry_msgs/Twist', {
+       rosNode.subscribe(
+          '/mobile_position',
+          'geometry_msgs/Twist',
+          (data) => {
+              console.log('SUB DATA : ', data);
+                io.emit('mobile_position', data);           
+          },
+          {queueSize: 1,
+           throttleMs: 10});
+           
+        let cmd_vel_pub = rosNode.advertise( '/cmd_vel','geometry_msgs/Twist', {
           queueSize: 1,
           latching: true,
           throttleMs: 10
         });
-        let serviceClient = rosNode.serviceClient('/add_two_ints','beginner_tutorials/AddTwoInts');
-        let test = rosNode.waitForService(serviceClient.getService(), 2000)
-          .then((available) => {
-            if (available) {
-              serviceClient.call({'a':1,'b':2}).then((resp) => {
-                console.log('Service response ' + JSON.stringify(resp.sum));
-              });
-            } else {
-              console.log('Service not available');
-            }
-          });
+
+        // let serviceClient = rosNode.serviceClient('/add_two_ints','beginner_tutorials/AddTwoInts');
+        // let    = rosNode.waitForService(serviceClient.getService(), 2000)
+        //   .then((available) => {
+        //     if (available) {
+        //       serviceClient.call({'a':1,'b':2}).then((resp) => {
+        //         console.log('Service response ' + JSON.stringify(resp.sum));
+        //       });
+        //     } else {
+        //       console.log('Service not available');
+        //     }
+        //   });
         const onConnection = (socket) => {
           console.log('Socket.io init success')
           socket.on('cmd_vel',function(data){
-          pub.publish(data);
+            cmd_vel_pub.publish(data);
           })
+
           socket.on('ping',function(callback){
             callback()
            })
-          socket.on('test',function(data,callback){
-            // pub.publish(data);
-            serviceClient.call({'a':data.a,'b':data.b}).then((resp) => {
-              console.log('Service response ' + JSON.stringify(resp.sum));
-              try{
-                callback(resp);
-              }
-              catch(error) {
-                callback(error);
-            }
-            });
+          // socket.on('test',function(data,callback){
+          //   // pub.publish(data);
+          //   serviceClient.call({'a':data.a,'b':data.b}).then((resp) => {
+          //     console.log('Service response ' + JSON.stringify(resp.sum));
+          //     try{
+          //       callback(resp);
+          //     }
+          //     catch(error) {
+          //       callback(error);
+          //   }
+          //   });
           
-            })
+          //   })
 
                   
         };
