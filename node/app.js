@@ -185,6 +185,11 @@ listener_node.then((rosNode) => {
           latching: true,
           throttleMs: 10
         });
+        let robotposition_pub = rosNode.advertise( '/mobile_target_position','geometry_msgs/Twist', {
+          queueSize: 1,
+          latching: true,
+          throttleMs: 10
+        });
 
         // let serviceClient = rosNode.serviceClient('/add_two_ints','beginner_tutorials/AddTwoInts');
         // let    = rosNode.waitForService(serviceClient.getService(), 2000)
@@ -206,6 +211,10 @@ listener_node.then((rosNode) => {
           socket.on('ping',function(callback){
             callback()
            })
+          socket.on('robotposition',function(callback){
+            robotposition_pub.publish(callback)
+          })
+
           // socket.on('test',function(data,callback){
           //   // pub.publish(data);
           //   serviceClient.call({'a':data.a,'b':data.b}).then((resp) => {
