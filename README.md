@@ -1,6 +1,14 @@
-# 啟動
+# WEB
+### docker build
 
-### 安裝ssl
+```bash
+$ . build-dokcer-image.bash
+```
+### docker run
+```bash
+$ . run-docker-container.bash
+```
+### ssl
 
 ```bash
 $ cd work/src/webdata/node/ssl
@@ -9,20 +17,18 @@ $ openssl req -new -key key.pem -out cert.csr
 $ openssl req -new -x509 -key server-key.pem -out server-cert.pem -days 1095
 ```
 
-### 啟動資料庫
+### mysql
 ```bash
 $ cd work
 $ sudo pg_ctlcluster 12 main start
 $ sudo -u postgres psql
 ```
-### 資料庫生成
 
 ```sql
-	CREATE USER $(USER) WITH PASSWORD 'aa';  
-	CREATE DATABASE web OWNER $(USER);
-    #ctrl+d 離開
+CREATE USER $(USER) WITH PASSWORD 'aa';  
+CREATE DATABASE web OWNER $(USER);
+#ctrl+d 離開
 ```
-### 資料庫初始化
 
 ```bash
 $ cd work
@@ -33,7 +39,7 @@ $ rosrun roswebnode app.js
 ```
 
 
-### 啟動網頁
+### web
 
 ```sql
 $ .  devel/setup.bash
