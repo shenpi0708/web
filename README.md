@@ -27,22 +27,23 @@ $ sudo -u postgres psql
 ```sql
 CREATE USER $(USER) WITH PASSWORD 'aa';  
 CREATE DATABASE web OWNER $(USER);
-#ctrl+d 離開
+#ctrl+d 
 ```
 
+
+
+
+### web
 ```bash
 $ cd work
 $ psql -d web -f src/webdata/SQL/start.sql
 $ catkin_make
-$ .  devel/setup.bash
-$ rosrun roswebnode app.js
 ```
 
-
-### web
-
-```sql
+```bash
 $ .  devel/setup.bash
 $ rosrun roswebnode app.js
+or
+$ rosrun roswebnode app_arm.js
 ```
 
