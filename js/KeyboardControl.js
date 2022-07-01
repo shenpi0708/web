@@ -44,58 +44,64 @@ function keysdown(e) {
     keys[e.keyCode] = true;
 
     //RobotControl
-    if (keys[83] && keys[68]) {
-      //右前
+    if (keys[87] && keys[68]) {
+      //
+      console.log('13')
       vec3.linear.x = parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
       socket.emit("cmd_vel",vec3)
       //PublishTopicCmdVel(vec3);
-    } else if (keys[87] && keys[68]) {
-      //右後
+    } else if (keys[83] && keys[68]) {
+      console.log('43')
+      
       vec3.linear.x = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
       socket.emit("cmd_vel",vec3)
       //PublishTopicCmdVel(vec3);
     } else if (keys[83] && keys[65]) {
-      //左前
+
       vec3.linear.x = parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
       socket.emit("cmd_vel",vec3)
       //PublishTopicCmdVel(vec3);
     } else if (keys[87] && keys[65]) {
-      //左後
+
       vec3.linear.x = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
       socket.emit("cmd_vel",vec3)
       //PublishTopicCmdVel(vec3);
     } else if (keys[68]) {
-      //右
+
+      console.log('3')
       vec3.linear.x = 0;
       vec3.linear.y = parseFloat(speed);
       vec3.angular.z = 0;
       socket.emit("cmd_vel",vec3)
       // PublishTopicCmdVel(vec3);
-    } else if (keys[83]) {
-      //前
+    } else if (keys[87]) {
+
       // vec3.linear.x = 100; //parseFloat(speed);
+      console.log('1')
       vec3.linear.x = parseFloat(speed);
       vec3.linear.y = 0;
       vec3.angular.z = 0;
       socket.emit("cmd_vel",vec3)
       //PublishTopicCmdVel(vec3);
     } else if (keys[65]) {
-      //左
+
+      console.log('2')
       vec3.linear.x = 0;
       vec3.linear.y = -parseFloat(speed);
       vec3.angular.z = 0;
       socket.emit("cmd_vel",vec3)
       //PublishTopicCmdVel(vec3);
-    } else if (keys[87]) {
-      // 後
+    } else if (keys[83]) {
+
+      console.log('4')
       vec3.linear.x = -parseFloat(speed);
       vec3.linear.y = 0;
       vec3.angular.z = 0;

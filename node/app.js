@@ -119,7 +119,7 @@ async function createTodo(database,todoText){
 async function deleteTodo(database,deletename,todoText){
 
   try {
-      console.log(database,todoText)
+      //console.log(database,todoText)
       await client.query("delete from "+database+" where "+deletename+" = "+ todoText);
       return true
       }
@@ -164,7 +164,7 @@ listener_node.then((rosNode) => {
         '/cmd_vel',
         'geometry_msgs/Twist',
         (data) => {
-            console.log('SUB DATA : ', data);
+            //console.log('SUB DATA : ', data);
               io.emit('/mesege', data);           
         },
         {queueSize: 1,
@@ -174,7 +174,7 @@ listener_node.then((rosNode) => {
           '/mobile_position',
           'geometry_msgs/Twist',
           (data) => {
-              console.log('SUB DATA : ', data);
+              //console.log('SUB DATA : ', data);
                 io.emit('mobile_position', data);           
           },
           {queueSize: 1,

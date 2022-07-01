@@ -30,9 +30,6 @@ CREATE DATABASE web OWNER $(USER);
 #ctrl+d 
 ```
 
-
-
-
 ### web
 ```bash
 $ cd work
@@ -42,6 +39,7 @@ $ catkin_make
 
 ```bash
 $ .  devel/setup.bash
+$ roscore
 $ rosrun roswebnode app.js
 or
 $ rosrun roswebnode app_arm.js

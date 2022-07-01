@@ -4,11 +4,6 @@ const     a = document.getElementById('alpha');
 const     b = document.getElementById('beta');
 const     g = document.getElementById('gamma');
 const     s = document.getElementById('speed');
-var socket = io.connect();
-
-socket.on("connect", function () {
-  console.log('socket connect ');
-});
 var vec3 = new ROSLIB.Message({
   linear: {
     x: 0.0,
@@ -22,11 +17,32 @@ var vec3 = new ROSLIB.Message({
   },
 });
 
+let robotposition = new ROSLIB.Message({
+  linear: {
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+  },
+  angular: {
+    x: 0.0,
+    y: 0.0,
+    z: 0.0,
+  },
+});
+
+
 var mobile_position_x,mobile_position_y,mobile_position_ang
 
-//收訊息
+
+//connet to nodejs
+var socket = io.connect();
+
+socket.on("connect", function () {
+  console.log('socket connect ');
+});
 
 
+// Require user consent to use gyroscope
 function clickk(){
 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
     DeviceOrientationEvent.requestPermission()
@@ -40,11 +56,9 @@ if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEve
 } else {
     listener()
 }
-
-
-
-
 }
+
+//read gyroscope
 function listener(){
     window.addEventListener('deviceorientation', function(event) {
             var speed = document.getElementById("powerRange").value/50;
@@ -55,20 +69,33 @@ function listener(){
             b.innerHTML = beta
             g.innerHTML = gamma            
             if(abgstart){
-                vec3.angular.z=(alpha-alphaO)*speed
-                vec3.linear.x=-(beta-betaO)*speed
-                vec3.linear.y=(gamma-gammaO)*speed
-                socket.emit("cmd_vel",vec3)
 
+                vec3.angular.z=checkrange(alpha-alphaO)/360*Math.PI
+                vec3.linear.x=checkrange(beta-betaO)*-speed
+                vec3.linear.y=checkrange(gamma-gammaO)*speed
+                socket.emit("cmd_vel",vec3)
             }
         }, false);
 }
+//check range in -180 to 180
+function checkrange(data){
+  if (data<-180)
+    return data+360
+  else if(data>180)
+    return data-360
+  else
+    return data
+}
+
+
+//move
 function down(){
   alphaO= a.innerHTML
   betaO= b.innerHTML
   gammaO= g.innerHTML
     abgstart=true
 }
+//stop
 function up(){
     abgstart=false
     let vec0 = new ROSLIB.Message({
@@ -85,37 +112,34 @@ function up(){
       });
      socket.emit("cmd_vel",vec0)
 }
-
+//speed
 function speed(){
   s.innerHTML =  document.getElementById("powerRange").value;
 }
-//  function convertImageToCanvas() {
-//   image=URL('../img/background.png')
-//   var canvas = document.createElement("canvas");
-//   canvas.width = image.width;
-//   canvas.height = image.height;
-//   canvas.getContext("2d").drawImage(image, 0, 0); return canvas;
-// }
 
-// convertImageToCanvas()
+
+//canvas setting
 var shapes=[];
 var canvas  =document.getElementById("myCanvas");
-canvas.width = 600; // 設定畫布的寬度
-canvas.height = 600;// 設定畫布的高度
+canvas.width = 600; 
+canvas.height = 600;
 var ctx=canvas.getContext("2d");
-ctx.lineJoin = "round"; // 指定兩條線連結處的屬性，這裡選擇用圓角
-ctx.lineCap = "round"; // 指定每一條線末端的屬性，這裡選擇用圓角
+ctx.lineJoin = "round"; 
+ctx.lineCap = "round"; 
 ctx.strokeStyle = `red`;
 ctx.lineWidth=4;
-let isDrawing = false; // 用來判斷是否正在畫圖
-let lastX = 0; //用來設定畫筆的X座標
-let lastY = 0; //用來設定畫筆的Y座標
-let AX = 0; //用來設定畫筆的X座標
-let AY = 0; //用來設定畫筆的Y座標
+let isDrawing = false; 
+let lastX = 0; 
+let lastY = 0; 
+let AX = 0; 
+let AY = 0; 
 let ang = 0;
 let mobile_position_on=false;
 let   lastX_nfind=0
 let lastY_nfind=0
+
+
+//mousecheck
 canvas.addEventListener("mousemove", (e)=>{
   if (isDrawing )
     draw(e)
@@ -145,16 +169,16 @@ canvas.addEventListener("mousedown", (e) => {
   mobile()
 });
 canvas.addEventListener("mouseup", () => {isDrawing = false ;});
-// canvas.addEventListener("mouseout", () => (isDrawing = false));
+
+/*draw data 
+* @param {string} e - envparam includ mouse loacation.
+*/
 function draw(e) {
   if (e.offsetX){
     lastX_nfind=e.offsetX
     lastY_nfind=e.offsetY    
   }
-
-
   ctx.clearRect(0,0,600,600)
-
   ctx.beginPath();
   // angside = Math.atan2(53,74)
   angside = 0.25
@@ -165,7 +189,6 @@ function draw(e) {
   ctx.lineTo(lastX-45.5*Math.cos(ang2+angside), lastY-45.5*Math.sin(ang2+angside));
   ctx.lineTo(lastX-45.5*Math.sin(ang2-angside), lastY+45.5*Math.cos(ang2-angside));
   ctx.lineTo(lastX+45.5*Math.cos(ang2+angside), lastY+45.5*Math.sin(ang2+angside));
-
 
   ctx.stroke();
 
@@ -180,12 +203,7 @@ function draw(e) {
     mobile()
 }
 
-var ctx2=canvas.getContext("2d");
-ctx2.strokeStyle = "#BADA55"; // 設定勾勒圖形時用的顏色
-ctx2.lineJoin = "round"; // 指定兩條線連結處的屬性，這裡選擇用圓角
-ctx2.lineCap = "round"; // 指定每一條線末端的屬性，這裡選擇用圓角
-
-
+// subscrip topices
 socket.on("mobile_position", function (msg) {
   mobile_position_on=true;
   mobile_position_x=msg.linear.x
@@ -193,36 +211,27 @@ socket.on("mobile_position", function (msg) {
   mobile_position_ang=msg.angular.z
   draw(window.event)
 });
+
+//mobile  show screan
 function mobile(){
-  ctx2.strokeStyle = `green`;
+  ctx.strokeStyle = `green`;
   var ang2=mobile_position_ang-Math.PI/4
-  ctx2.beginPath();
-  ctx2.moveTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
-  ctx2.lineTo(mobile_position_x+45.5*Math.sin(ang2-angside), mobile_position_y-45.5*Math.cos(ang2-angside));
-  ctx2.lineTo(mobile_position_x-45.5*Math.cos(ang2+angside), mobile_position_y-45.5*Math.sin(ang2+angside));
-  ctx2.lineTo(mobile_position_x-45.5*Math.sin(ang2-angside), mobile_position_y+45.5*Math.cos(ang2-angside));
-  ctx2.lineTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
-  ctx2.stroke();
-  ctx2.beginPath(); 
+  ctx.beginPath();
+  ctx.moveTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
+  ctx.lineTo(mobile_position_x+45.5*Math.sin(ang2-angside), mobile_position_y-45.5*Math.cos(ang2-angside));
+  ctx.lineTo(mobile_position_x-45.5*Math.cos(ang2+angside), mobile_position_y-45.5*Math.sin(ang2+angside));
+  ctx.lineTo(mobile_position_x-45.5*Math.sin(ang2-angside), mobile_position_y+45.5*Math.cos(ang2-angside));
+  ctx.lineTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
+  ctx.stroke();
+  ctx.beginPath(); 
 
-  ctx2.moveTo(mobile_position_x, mobile_position_y);
-  ctx2.lineTo(mobile_position_x+40*Math.cos(mobile_position_ang), mobile_position_y+40*Math.sin(mobile_position_ang));
-  ctx2.stroke();
-  ctx2.strokeStyle = `red`;
+  ctx.moveTo(mobile_position_x, mobile_position_y);
+  ctx.lineTo(mobile_position_x+40*Math.cos(mobile_position_ang), mobile_position_y+40*Math.sin(mobile_position_ang));
+  ctx.stroke();
+  ctx.strokeStyle = `red`;
 }
-let robotposition = new ROSLIB.Message({
-  linear: {
-    x: 0.0,
-    y: 0.0,
-    z: 0.0,
-  },
-  angular: {
-    x: 0.0,
-    y: 0.0,
-    z: 0.0,
-  },
-});
 
+//push mobile target position to ros
 function pubdata(){
   robotposition.linear.x=lastX
   robotposition.linear.y=lastY

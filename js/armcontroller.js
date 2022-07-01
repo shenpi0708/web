@@ -267,11 +267,7 @@ function _current(where,wh){
             document.getElementById("Joint"+wh+'11').value =Math.round( -answer.group_pose.position.z * 100) / 100
             document.getElementById("Joint"+wh+'15').value = Math.round(answer.phi*180/Math.PI * 100) / 100
         })  
-        // console.log(string)      
-    // }
-    // catch(error) {
-    //     console.log("Service call failed: %s" % error)
-    // }
+
 }
 /////////////////////////////////////////////////
 function _armjointdata(where){
@@ -312,7 +308,6 @@ function datatf(data,where){
 
 
 function noa_relative_pos(data, suction_angle=0, n=0, o=0, a=0){
-//由a點移動至基於b點延noa向量移動後的c點
 
     suction_angle = suction_angle * pi/180
     suction_rot = np.matrix([[cos(suction_angle),  0.0, sin(suction_angle)],

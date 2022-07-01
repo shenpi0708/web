@@ -2,7 +2,7 @@
 //stop
 const mo=function(e){e.preventDefault();};
 document.body.style.overflow="hidden";        
-document.addEventListener("touchmove",mo,false);//禁止頁面滑動
+document.addEventListener("touchmove",mo,false);
 
 //URL par
 const search_url = new URL(window.location.href);
@@ -12,15 +12,17 @@ for (let pair of params.entries()) {
   console.log(pair[0]);
   method[pair[0]]=pair[1]
 } 
-
+var delaytime
 var socket = io.connect();
 socket.on("connect", function () {
   setInterval(function() {
     start_time = new Date().getTime();
     socket.emit("ping",function () {
         end_time = new Date().getTime();
-        time = end_time - start_time
-        document.getElementById("ms").innerHTML=time+'ms'
+        
+        delaytime = end_time - start_time
+
+        document.getElementById("ms").innerHTML=delaytime+'ms'
     })
 }, 2000);
 });
@@ -31,8 +33,6 @@ socket.on("/my_topic", function (msg) {
 });
 
 //jsframe
-
-  // 添加適當的事件監聽器
 
 
 
