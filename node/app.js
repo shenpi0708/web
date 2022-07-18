@@ -180,7 +180,7 @@ listener_node.then((rosNode) => {
           {queueSize: 1,
            throttleMs: 10});
            
-        let cmd_vel_pub = rosNode.advertise( '/cmd_vel','geometry_msgs/Twist', {
+        let cmd_vel_pub = rosNode.advertise( '/vehicle/cmd_new','geometry_msgs/Twist', {
           queueSize: 1,
           latching: true,
           throttleMs: 10

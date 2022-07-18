@@ -71,20 +71,28 @@ function listener(){
             if(abgstart){
 
                 vec3.angular.z=checkrange(alpha-alphaO)/360*Math.PI
-                vec3.linear.x=checkrange(beta-betaO)*-speed
+                vec3.linear.x=checkrange(beta-betaO)*speed
                 vec3.linear.y=checkrange(gamma-gammaO)*speed
                 socket.emit("cmd_vel",vec3)
+                document.getElementById("demo").innerHTML = vec3.angular.z +"x"+ vec3.linear.x+"Y"+ vec3.linear.y;
             }
         }, false);
 }
 //check range in -180 to 180
 function checkrange(data){
+  
   if (data<-180)
-    return data+360
+    data=data+360
   else if(data>180)
-    return data-360
+    data=data-360
   else
+    data=data
+  if (data<10&& data>-10  ){
+    return 0
+  }
+  else{
     return data
+  }
 }
 
 
