@@ -77,6 +77,6 @@ const jsFrame = new JSFrame();
           
         }
   }
-  function aaa(){
-    window.dispatchEvent(myEvent);
-  }
+  // function aaa(){
+  //   window.dispatchEvent(myEvent);
+  // }

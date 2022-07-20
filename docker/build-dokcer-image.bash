@@ -15,3 +15,11 @@ docker build -t ${user}/ros-focal-noetic \
     --build-arg GROUP=${group} \
     --build-arg GID=${gid} \
     ${file_dir}
+
+# docker build -t ${user}/ros-focal-noetic \
+#     --build-arg USER=${user} \
+#     --build-arg UID=${uid} \
+#     --build-arg GROUP=${group} \
+#     --build-arg GID=${gid} \
+#     ${file_dir}/Dockerfile ${file_dir}/..
+

@@ -3,9 +3,13 @@ let right = false;
 var joint_pose_current
 var kinematics_current
 var socket = io.connect();
+
+// connect socket io
 socket.on("connect", function () {
   console.log('socket connect ');
 });
+
+// Subscribe status
 socket.on("/left_arm/status", (arg) => {
     var btm 
     var len
@@ -70,6 +74,8 @@ socket.on("/right_arm/status", (arg) => {
         }
     }
 });  
+
+// left arm enable
 function leftCLK(){ 
     if(left===true){
         left=false;
@@ -80,6 +86,7 @@ function leftCLK(){
         document.getElementById('leftarm').style.background="#5B79FF"
     }
 }
+// right arm enable
 function rightCLK(){
     if(right===true){
         right=false;
@@ -90,8 +97,8 @@ function rightCLK(){
         right=true
     }
 }
-
-function set_modle(){ //ok
+// set modle
+function set_modle(){ 
     var data = string
     data.data='set_mode'
     if (left===true)
@@ -99,12 +106,14 @@ function set_modle(){ //ok
     if(right===true)
         socket.emit("/right_arm/set_mode_msg",data)
 }   
-function current(){  //ok
+// get arm current value 
+function current(){  
     if (left===true)
         _current('left','L')
     if(right===true)
         _current('right','R')
 }
+//  Des Joint Val.
 function Joint_Val(){ //ok
     var jointdata =JointPose
     var slidedata = slidetype 
@@ -130,7 +139,7 @@ function Joint_Val(){ //ok
     }
 
 }
-
+// Initial Pose
 function Initial_Pose(){
     var data = string
     data.data='ini_pose'
@@ -139,8 +148,8 @@ function Initial_Pose(){
     if(right===true)
         socket.emit("/right_arm/specific_pose_msg",data)
 }
-
-function home(){//ok
+// to home
+function home(){
     var data = string
     data.data='home_pose'
     if (left===true)
@@ -148,45 +157,47 @@ function home(){//ok
     if(right===true)
         socket.emit("/right_arm/specific_pose_msg",data)
 }
-////////////////////100%/////////////////////////
+//Line Pos
 function Line_Pos(){
     var data = P2PPose
     if (left===true){
-        data = datatf(data,'L')
+        data = datatf('L')
         socket.emit("/left_arm/kinematics_pose_msg",data)        
     }
 
     if(right===true){
-        data = datatf(data,'R')
+        data = datatf('R')
         socket.emit("/right_arm/kinematics_pose_msg",data)        
     }
 
 }
+// P2P Pos
 function P2P_Pos(){
     var data = P2PPose
     if (left===true){
-        data = datatf(data,'L')
+        data = datatf('L')
         socket.emit("/left_arm/p2p_pose_msg",data)
     } 
     if(right===true){
-        data = datatf(data,'R')
+        data = datatf('R')
         socket.emit("/right_arm/p2p_pose_msg",data)
     }
         
-}
+} 
+//Moveit Pos
 function Moveit_Pos(){
     var data = P2PPose
     if (left===true){
-        data = datatf(data,'L')
+        data = datatf('L')
         socket.emit("/left_arm/p2p_pose_msg",data)
     } 
     if(right===true){
-        data = datatf(data,'R')
+        data = datatf('R')
         socket.emit("/right_arm/p2p_pose_msg",data)
     }
 }
 /////////////////////////////////////////////
-
+// Jaws grap and releasse
 function Grap(){
     var data = string
     data.data='Gripper_grap_Alcohol'
@@ -204,6 +215,7 @@ function release(){
         socket.emit("/right_arm/release_pose_msg",data)
 }
 ////////////////////////////////////////////
+// sucker ON and OFF 
 function suckerON(){
     var data = string
     data.data='sucker_on'
@@ -220,7 +232,11 @@ function suckerOFF(){
     if(right===true)
         socket.emit("/right_arm/sucker_off_msg",data)
 }
-//////////////////0%///////////////////////////
+/////////////////////////////////////////////
+/*Reletive movement
+* @param {string} name - right or left.
+  @param {int} value - direction 1 or -1 .
+*/
 function Reletive_movement(name,value){
     current()
     if(name!='12'){
@@ -242,6 +258,10 @@ function Reletive_movement(name,value){
 }
 /////////////////////////////////////////////
 /////////////////////
+/*get current data
+* @param {string} where - right or left.
+  @param {string} where - R or L.
+*/
 function _current(where,wh){
     // try{
         var string = {
@@ -270,6 +290,9 @@ function _current(where,wh){
 
 }
 /////////////////////////////////////////////////
+/*read data and push
+* @param {string} where - right or left.
+*/
 function _armjointdata(where){
     var data=[] 
 
@@ -291,8 +314,12 @@ function _armlinedata(where){
 }
 
 
-
-function datatf(data,where){
+/////////////////////////////////////////////////
+/* transfrom data
+* @param {string} where - right or left.
+*/
+function datatf(where){
+    var data = P2PPose
     var htmldata = _armlinedata(where)
     data.pose.speed=htmldata[0]
     data.pose.position.x=htmldata[1]
@@ -302,13 +329,21 @@ function datatf(data,where){
     data.pose.orientation.z=htmldata[6]*Math.PI/180
     data.pose.orientation.w=htmldata[7]*Math.PI/180
     data.pose.phi=htmldata[4]*Math.PI/180    
-    console.log(data)
+    // console.log(data)
     return data
 }
 
+/////////////////////////////////////////////////
+/* relative pos
+* @param {string} data - direction R or L.
 
-function noa_relative_pos(data, suction_angle=0, n=0, o=0, a=0){
+*/
 
+function noa_relative_pos(data){
+    let suction_angle=0
+    let n=0
+    let o=0
+    let a=0
     suction_angle = suction_angle * pi/180
     suction_rot = np.matrix([[cos(suction_angle),  0.0, sin(suction_angle)],
                         [0.0,                 1.0,                0.0],
