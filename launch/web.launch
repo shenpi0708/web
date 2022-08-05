@@ -1,0 +1,15 @@
+ <launch>
+ <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
+    <arg name="port" default="9090" />
+    <arg name="address" default="" />
+    <arg name="ssl" default="true" />
+    <arg name="certfile" default="/home/iclab/work/src/web/node/ssl/nginx.crt" />
+    <arg name="keyfile" default="/home/iclab/work/src/web/node/ssl/nginx.key" />
+    <arg name="authenticate" default="false" />
+ </include>
+
+ <include file="$(find rvizweb)/launch/rvizweb.launch" />
+ <node name="roswebnode" pkg="roswebnode" type="app.js"/>
+ <node name="web_video_server1" pkg="web_video_server" type="web_video_server"/>
+
+ </launch>

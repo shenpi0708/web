@@ -1,15 +1,17 @@
 window.addEventListener("keydown", keysdown, false);
 window.addEventListener("keyup", keyuped, false);
-// ROSIP = localStorage.getItem("IP1");
-// ros = new ROSLIB.Ros({
-//   url : 'wss://'+ROSIP+':9090'
-// });
+ROSIP = location.hostname
+console.log(location)
+console.log(ROSIP)
+ros = new ROSLIB.Ros({
+  url : 'wss://'+ROSIP+':9090'
+});
 
-// var cmdVel = new ROSLIB.Topic({
-//   ros : ros,
-//   name : '/cmd_vel',
-//   messageType : 'geometry_msgs/Twist'
-// });
+var cmdVel = new ROSLIB.Topic({
+  ros : ros,
+  name : '/cmd_vel',
+  messageType : 'geometry_msgs/Twist'
+});
 
 var keys = [];
 var start=false;
@@ -50,38 +52,33 @@ function keysdown(e) {
       vec3.linear.x = parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+      cmdVel.publish(vec3);
     } else if (keys[83] && keys[68]) {
       console.log('43')
       
       vec3.linear.x = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[83] && keys[65]) {
 
       vec3.linear.x = parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[87] && keys[65]) {
 
       vec3.linear.x = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[68]) {
 
       console.log('3')
       vec3.linear.x = 0;
       vec3.linear.y = parseFloat(speed);
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      // PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[87]) {
 
       // vec3.linear.x = 100; //parseFloat(speed);
@@ -89,24 +86,21 @@ function keysdown(e) {
       vec3.linear.x = parseFloat(speed);
       vec3.linear.y = 0;
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[65]) {
 
       console.log('2')
       vec3.linear.x = 0;
       vec3.linear.y = -parseFloat(speed);
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[83]) {
 
       console.log('4')
       vec3.linear.x = -parseFloat(speed);
       vec3.linear.y = 0;
       vec3.angular.z = 0;
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[69]) {
       var speed_;
       if (Math.abs(parseFloat(speed)) > 15) {
@@ -118,8 +112,7 @@ function keysdown(e) {
       vec3.linear.y = 0;
       vec3.angular.z = -parseFloat(speed_);
 
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     } else if (keys[81]) {
       var speed_;
       if (Math.abs(parseFloat(speed)) > 15) {
@@ -131,8 +124,7 @@ function keysdown(e) {
       vec3.linear.y = 0;
       vec3.angular.z = parseFloat(speed_);
 
-      socket.emit("cmd_vel",vec3)
-      //PublishTopicCmdVel(vec3);
+cmdVel.publish(vec3);
     }
   }
 }
@@ -177,7 +169,8 @@ function releasebutton(state) {
   //    console.log("stop");
   //    PublishTopicCmdVel(vec3);
   //}
-  socket.emit("cmd_vel",vec3)
+  // socket.emit("cmd_vel",vec3)
+  cmdVel.publish(vec3);
 }
 
 function keyuped(e) {

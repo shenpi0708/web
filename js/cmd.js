@@ -1,3 +1,15 @@
+ROSIP = location.hostname
+console.log(ROSIP)
+ros = new ROSLIB.Ros({
+  url : 'wss://'+ROSIP+':9090'
+});
+
+var cmdVel = new ROSLIB.Topic({
+  ros : ros,
+  name : '/cmd_vel',
+  messageType : 'geometry_msgs/Twist'
+});
+
 var alpha, beta ,gamma,alphaO, betaO ,gammaO
 var abgstart=false
 const     a = document.getElementById('alpha');
@@ -30,8 +42,9 @@ let robotposition = new ROSLIB.Message({
   },
 });
 
-
 var mobile_position_x,mobile_position_y,mobile_position_ang
+
+
 
 
 //connet to nodejs
@@ -73,7 +86,7 @@ function listener(){
                 vec3.angular.z=checkrange(alpha-alphaO)/360*Math.PI
                 vec3.linear.x=checkrange(beta-betaO)*speed
                 vec3.linear.y=checkrange(gamma-gammaO)*speed
-                socket.emit("cmd_vel",vec3)
+                cmdVel.publish(vec3);
                 document.getElementById("demo").innerHTML = vec3.angular.z +"x"+ vec3.linear.x+"Y"+ vec3.linear.y;
             }
         }, false);
@@ -118,7 +131,7 @@ function up(){
           z: 0.0,
         },
       });
-     socket.emit("cmd_vel",vec0)
+      cmdVel.publish(vec0);
 }
 //speed
 function speed(){
@@ -212,7 +225,19 @@ function draw(e) {
 }
 
 // subscrip topices
-socket.on("mobile_position", function (msg) {
+// socket.on("mobile_position", function (msg) {
+//   mobile_position_on=true;
+//   mobile_position_x=msg.linear.x
+//   mobile_position_y=msg.linear.y
+//   mobile_position_ang=msg.angular.z
+//   draw(window.event)
+// });
+var imu_3d = new ROSLIB.Topic({
+  ros: ros,
+  name: 'mobile_position',
+  messageType: 'geometry_msgs/Twist'
+});
+imu_3d.subscribe(function (msg) {
   mobile_position_on=true;
   mobile_position_x=msg.linear.x
   mobile_position_y=msg.linear.y
@@ -244,5 +269,5 @@ function pubdata(){
   robotposition.linear.x=lastX
   robotposition.linear.y=lastY
   robotposition.angular.z=ang
-  socket.emit("robotposition",robotposition)
+  cmdVel.publish(robotposition);
 }

@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     npm \
     postgresql-12\
     ros-noetic-rosbridge-suite\
+    nginx\
 
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
@@ -65,11 +66,14 @@ EXPOSE 22
 # Switch to user's HOME folder
 WORKDIR /home/${USER}
 
+# nginx
+COPY ./config/nginx/magic.conf /etc/nginx/sites-available/default
+# RUN sudo /etc/init.d/nginx start
 
 # COPY rvizweb
 COPY ./config/rvizweb /home/${USER}/rvizweb_ws/src/rvizweb
 RUN sudo chmod -R 777 /home/${USER}/rvizweb_ws
 RUN bash  /home/${USER}/rvizweb_ws/src/rvizweb/config/start.sh
-
+RUN echo "source ~/rvizweb_ws/install/setup.bash" >> ~/.bashrc
 # CMD ["terminator"]
 ENTRYPOINT ["/entrypoint.bash", "terminator"]

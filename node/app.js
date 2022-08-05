@@ -17,7 +17,7 @@ const express = require('express');
 const path = require('path');
 const http = require('http')
 const port = process.env.PORT || 3001; 
-
+var url = require('url');
 const app = express();
 // const server = http.createServer(app)
 
@@ -142,6 +142,7 @@ server = https.createServer(options, app)
 server.listen(3001,hostname, function (req, res) {
   console.log('https://'+hostname+":3001");
 });
+
 
 //socket io
 const socket = require('socket.io')

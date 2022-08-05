@@ -1,4 +1,6 @@
 
+
+
 //stop
 const mo=function(e){e.preventDefault();};
 document.body.style.overflow="hidden";        
@@ -13,6 +15,8 @@ for (let pair of params.entries()) {
   method[pair[0]]=pair[1]
 } 
 var delaytime
+const jsFrame = new JSFrame();
+var frame
 var socket = io.connect();
 socket.on("connect", function () {
   setInterval(function() {
@@ -36,16 +40,15 @@ socket.on("/my_topic", function (msg) {
 
 
 
-const jsFrame = new JSFrame();
 
 
   function start(idx,name) {
       url = "html/"+name+".html"
-      const frame = jsFrame.create({
+      frame = jsFrame.create({
         appearanceName: 'yosemite',
         title: name,
         name: `window${idx}`,
-        left: 20 + idx * 100, top: 100, width: 520, height: 320,
+        left: 20 + idx * 100, top: 100, width: 520, height: 300,
         movable: true,
         resizable: true,
         url: url,
@@ -63,7 +66,8 @@ const jsFrame = new JSFrame();
   function click2(idx,name) {
         if (method["method"]==1){
           const windowName = `window${idx}`;
-          const frame = jsFrame.getWindowByName(windowName);
+          console.log(jsFrame);
+          frame = jsFrame.getWindowByName(windowName);
           if (frame){
           console.log(jsFrame);
           frame.requestFocus();
@@ -73,10 +77,8 @@ const jsFrame = new JSFrame();
           }          
         }
         else{
+          
           $("#page1").load("html/"+name+".html");
           
         }
   }
-  // function aaa(){
-  //   window.dispatchEvent(myEvent);
-  // }
