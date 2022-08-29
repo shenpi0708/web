@@ -13,7 +13,7 @@ async function send() {
         myname = prompt("yourname");
     }
     mes = {talk:"('"+myname+"','"+text+"')"}
-    console.log(mes.talk)
+    console.log("https://"+hostname+":"+port+"/data")
     let result = await fetch("https://"+hostname+":"+port+"/data", {method: "POST", 
     headers: {"content-type": "application/json"}, body: JSON.stringify(mes) })
     result = await result.json();
@@ -35,3 +35,13 @@ async function read() {
     }
     datalen=datas.length;
   }
+
+
+var socket = io.connect();
+
+socket.on("connect", function () {
+  console.log('socket connect ');
+});
+socket.on("chat", function () {
+    read()
+});

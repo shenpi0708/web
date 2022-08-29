@@ -14,6 +14,7 @@ function getIPAdress() {
 const hostname = getIPAdress();
 const username = require('os').userInfo().username
 const express = require('express');
+var bodyParser = require('body-parser')
 const path = require('path');
 const http = require('http')
 const port = process.env.PORT || 3001; 
@@ -33,7 +34,10 @@ app.listen(3000,hostname, function (req, res) {
   console.log('http://'+hostname+":3000");
 });
 
+app.use(bodyParser.urlencoded({ extended: false }))
 
+// parse application/json
+app.use(bodyParser.json())
 
 const { Client } = require('pg')
 const client = new Client({
@@ -52,14 +56,16 @@ client.connect(function(err) {
   res.send(rows);
 });
 
-app.post("/data", async (req, res) => {
-  let result = {}
+app.post("/data", postsql)
 
+async function postsql(req, res){
+  let result = {}
   try{
       const reqJson = req.body;
+      console.log(typeof(reqJson.talk))
       console.log(reqJson.talk)
       result.success = await createTodo("talk",reqJson.talk)
-      
+      // result.success = await createTodo("talk","('wer',"+reqJson.talk+")" ) 
   }
   catch(e){
       result.success=false;
@@ -67,10 +73,8 @@ app.post("/data", async (req, res) => {
   finally{
       res.setHeader("content-type", "application/json")
       res.send(JSON.stringify(result))
-      
   }
- 
-})
+}
 
 app.delete("/data", async (req, res) => {
   let result = {}
@@ -109,10 +113,12 @@ async function readTodos(database) {
 
 async function createTodo(database,todoText){
   try {
+     
       await client.query("INSERT INTO "+database+" VALUES"+ todoText);
       return true
       }
       catch(e){
+        console.log(e)
         return false;
       }
 }
@@ -161,6 +167,29 @@ const topics = ['/my_topic','/my_topic2']
 
 listener_node.then((rosNode) => {
   
+      ///////////////////SQL//////////////
+      let chat = rosNode.subscribe(
+        '/chat',
+        'std_msgs/String',
+        async (res)=>{
+          result=[]
+          try{
+              const reqJson = res.data;
+              console.log(typeof(res.data))
+              console.log(reqJson)
+              result.success = await createTodo("talk",reqJson)            
+              io.emit('chat', "ok"); 
+          }
+          finally{
+            console.log(result+'error')
+          }
+          
+        },
+        {queueSize: 1,
+         throttleMs: 10});      
+
+      ////////////////////////////////////
+      
       let sub = rosNode.subscribe(
         '/cmd_vel',
         'geometry_msgs/Twist',

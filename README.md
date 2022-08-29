@@ -18,7 +18,6 @@ $ openssl genrsa -des3 -out key.pem 2048
 $ openssl req -new -key key.pem -out cert.csr
 $ openssl req -new -x509 -key server-key.pem -out server-cert.pem -days 1095
 $ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt
-$ sudo /etc/init.d/nginx start
 ```
 
 ### mysql
@@ -35,15 +34,24 @@ CREATE DATABASE web OWNER $(USER);
 
 ### web
 ```bash
-$ psql -d web -f src/webdata/SQL/start.sql
-$ catkin_make
+$ psql -d web -f src/web/SQL/start.sql
+$ sudo /etc/init.d/nginx start
+
 ```
 
 ```bash
+# $ catkin_make
 $ .  devel/setup.bash
+$ roslaunch roswebnode web.launch 
+#########################
 $ roscore
 $ rosrun roswebnode app.js
 or
 $ rosrun roswebnode app_arm.js
 ```
 
+
+### system pub
+```bash
+$ rostopic pub /chat std_msgs/String "data: ('system','i am ok')"
+```
