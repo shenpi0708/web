@@ -4,7 +4,7 @@ CREATE TABLE talk (
 );
 
 
-INSERT INTO talk VALUES ('shen','hi');
+INSERT INTO talk VALUES ('system','start ok');
 
 
 
