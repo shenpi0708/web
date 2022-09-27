@@ -6,7 +6,7 @@ ros = new ROSLIB.Ros({
 
 var cmdVel = new ROSLIB.Topic({
   ros : ros,
-  name : '/cmd_vel',
+  name : '/mobile/cmd_vel',
   messageType : 'geometry_msgs/Twist'
 });
 
