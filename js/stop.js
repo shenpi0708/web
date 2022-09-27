@@ -5,7 +5,7 @@ ros = new ROSLIB.Ros({
   
 var msg = new ROSLIB.Topic({
 ros : ros,
-name : '/arm_msg_toarm',
+name : '/msg_toarm',
 messageType : 'std_msgs/String'
 });
 
