@@ -248,7 +248,7 @@ imu_3d.subscribe(function (msg) {
 //mobile  show screan
 function mobile(){
   ctx.strokeStyle = `green`;
-  var ang2=mobile_position_ang-Math.PI/4
+  var ang2=mobile_position_ang/180*Math.PI-Math.PI/4
   ctx.beginPath();
   ctx.moveTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
   ctx.lineTo(mobile_position_x+45.5*Math.sin(ang2-angside), mobile_position_y-45.5*Math.cos(ang2-angside));
@@ -257,9 +257,9 @@ function mobile(){
   ctx.lineTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
   ctx.stroke();
   ctx.beginPath(); 
-
+  console.log(mobile_position_x,lastX)
   ctx.moveTo(mobile_position_x, mobile_position_y);
-  ctx.lineTo(mobile_position_x+40*Math.cos(mobile_position_ang), mobile_position_y+40*Math.sin(mobile_position_ang));
+  ctx.lineTo(mobile_position_x+40*Math.cos(mobile_position_ang/180*Math.PI), mobile_position_y+40*Math.sin(mobile_position_ang/180*Math.PI));
   ctx.stroke();
   ctx.strokeStyle = `red`;
 }
