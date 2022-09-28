@@ -42,13 +42,13 @@ socket.on("/my_topic", function (msg) {
 
 
 
-  function start(idx,name) {
+  function start(idx,name,le,to,wi,he) {
       url = "html/"+name+".html"
       frame = jsFrame.create({
         appearanceName: 'yosemite',
         title: name,
         name: `window${idx}`,
-        left: 20 + idx * 100, top: 100, width: 520, height: 300,
+        left: le, top: to, width: wi, height: he,
         movable: true,
         resizable: true,
         url: url,
@@ -63,7 +63,7 @@ socket.on("/my_topic", function (msg) {
       frame.show();
     }
 
-  function click2(idx,name) {
+  function click2(idx,name,le,to,wi,he) {
         if (method["method"]==1){
           const windowName = `window${idx}`;
           console.log(jsFrame);
@@ -73,7 +73,7 @@ socket.on("/my_topic", function (msg) {
           frame.requestFocus();
           }
           else{
-              start(idx,name);
+              start(idx,name,le,to,wi,he);
           }          
         }
         else{
