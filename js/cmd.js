@@ -6,7 +6,7 @@ ros = new ROSLIB.Ros({
 
 var cmdVel = new ROSLIB.Topic({
   ros : ros,
-  name : '/mobile/cmd_vel',
+  name : '/vehicle/cmd_new',
   messageType : 'geometry_msgs/Twist'
 });
 
@@ -257,7 +257,7 @@ function mobile(){
   ctx.lineTo(mobile_position_x+45.5*Math.cos(ang2+angside), mobile_position_y+45.5*Math.sin(ang2+angside));
   ctx.stroke();
   ctx.beginPath(); 
-  console.log(mobile_position_x,lastX)
+  // console.log(mobile_position_x,lastX)
   ctx.moveTo(mobile_position_x, mobile_position_y);
   ctx.lineTo(mobile_position_x+40*Math.cos(mobile_position_ang/180*Math.PI), mobile_position_y+40*Math.sin(mobile_position_ang/180*Math.PI));
   ctx.stroke();
