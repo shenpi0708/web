@@ -3,7 +3,7 @@
 file_dir=`dirname $0`
 
 # get parameter from system
-user=`id -un`
+user=iclab
 group=`id -gn`
 uid=`id -u`
 gid=`id -g`

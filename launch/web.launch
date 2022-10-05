@@ -3,8 +3,8 @@
     <arg name="port" default="9090" />
     <arg name="address" default="" />
     <arg name="ssl" default="true" />
-    <arg name="certfile" default="/home/user/work/src/web/node/ssl/nginx.crt" />
-    <arg name="keyfile" default="/home/user/work/src/web/node/ssl/nginx.key" />
+    <arg name="certfile" default="/home/iclab/work/src/web/node/ssl/nginx.crt" />
+    <arg name="keyfile" default="/home/iclab/work/src/web/node/ssl/nginx.key" />
     <arg name="authenticate" default="false" />
  </include>
 

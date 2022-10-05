@@ -11,7 +11,7 @@ function getIPAdress() {
       }　　
   }
 }
-const hostname = getIPAdress();
+const hostname = "192.168.0.220";
 const username = require('os').userInfo().username
 const express = require('express');
 var bodyParser = require('body-parser')
@@ -41,7 +41,7 @@ app.use(bodyParser.json())
 
 const { Client } = require('pg')
 const client = new Client({
-  user: username,
+  user: 'iclab',
   host: 'localhost',
   database: 'web',
   password: 'aa',

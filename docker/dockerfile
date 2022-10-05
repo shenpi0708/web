@@ -1,7 +1,7 @@
 # FROM osrf/ros:noetic-desktop-full
 FROM ros:noetic-ros-base-focal
 # Arguments
-ARG USER=initial
+ARG USER=iclab
 ARG GROUP=initial
 ARG UID=1000
 ARG GID=${UID}
@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     postgresql-12\
     ros-noetic-rosbridge-suite\
     nginx\
-
+    ros-noetic-web-video-server\
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -76,4 +76,5 @@ RUN sudo chmod -R 777 /home/${USER}/rvizweb_ws
 RUN bash  /home/${USER}/rvizweb_ws/src/rvizweb/config/start.sh
 RUN echo "source ~/rvizweb_ws/install/setup.bash" >> ~/.bashrc
 # CMD ["terminator"]
-ENTRYPOINT ["/entrypoint.bash", "terminator"]
+# ENTRYPOINT ["/entrypoint.bash", "terminator"]
+ENTRYPOINT ["/entrypoint.bash", "bash"]

@@ -22,7 +22,7 @@ const path = require('path');
 // Configuration
 const PORT = 3000;
 const HOST = "localhost";
-const API_SERVICE_URL = "http://163.13.164.164:8001/rvizweb/www/index.html";
+const API_SERVICE_URL = "http://192.168.0.220:8001/rvizweb/www/index.html";
 
 // Proxy endpoints
 app.use('/my-service', createProxyMiddleware({

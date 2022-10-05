@@ -46,33 +46,33 @@ function keysdown(e) {
     keys[e.keyCode] = true;
 
     //RobotControl
-    if (keys[87] && keys[68]) {
+    if (keys[87] && keys[65]) {
       //
       console.log('13')
       vec3.linear.x = parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
       cmdVel.publish(vec3);
-    } else if (keys[83] && keys[68]) {
+    } else if (keys[83] && keys[65]) {
       console.log('43')
       
       vec3.linear.x = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
 cmdVel.publish(vec3);
-    } else if (keys[83] && keys[65]) {
+    } else if (keys[83] && keys[68]) { ##
 
       vec3.linear.x = parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
 cmdVel.publish(vec3);
-    } else if (keys[87] && keys[65]) {
+    } else if (keys[87] && keys[68]) {##
 
       vec3.linear.x = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.linear.y = -parseFloat(speed / Math.pow(2, 0.5));
       vec3.angular.z = 0;
 cmdVel.publish(vec3);
-    } else if (keys[68]) {
+    } else if (keys[65]) {
 
       console.log('3')
       vec3.linear.x = 0;
@@ -87,7 +87,7 @@ cmdVel.publish(vec3);
       vec3.linear.y = 0;
       vec3.angular.z = 0;
 cmdVel.publish(vec3);
-    } else if (keys[65]) {
+    } else if (keys[68]) {##
 
       console.log('2')
       vec3.linear.x = 0;
